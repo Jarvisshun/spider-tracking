@@ -1,0 +1,1363 @@
+{
+	"init": {
+		"general": {
+			"seo": {
+				"title": "Spidey Tracker - Sony Pictures",
+				"description": "Follow Spider-Man's whereabouts with the official Spidey Tracker.",
+				"keywords": "Spider-Man, Spidey Tracker, Sony Pictures, Spider-Man sightings, map tracker",
+				"shareImage": "./images/shareImage/shareImage.jpg",
+				"ogTitle": "Spidey Tracker - Sony Pictures",
+				"ogDescription": "Follow Spider-Man's whereabouts with the official Spidey Tracker.",
+				"twitterTitle": "Spidey Tracker - Sony Pictures",
+				"twitterDescription": "Follow Spider-Man's whereabouts with the official Spidey Tracker."
+			},
+			"header": {
+				"sonyPicturesAriaLabel": "Sony Pictures",
+				"sonyPicturesAlt": "Sony Pictures Television",
+				"sonyAriaLabel": "Sony",
+				"sonyAlt": "Sony"
+			},
+			"mainUi": {
+				"log": "LOG",
+				"webWatch": "WEB WATCH",
+				"reportSighting": "REPORT SIGHTING",
+				"video": "VIDEO",
+				"legend": "?",
+				"soundOffAlt": "Sound off",
+				"soundOnAlt": "Sound on"
+			},
+			"legend": {
+				"title": "LEGEND",
+				"ariaLabel": "Map legend",
+				"closeAriaLabel": "Close legend",
+				"intro": "Interact with the map to view spider-man sightings all over the world. to familiarize yourself with my spidey tracker, here is a legend for all of it’s features. enjoy and get spotting!",
+				"featuresAriaLabel": "Legend features",
+				"items": {
+					"confirmed": "CONFIRMED SPIDEY SIGHTINGS",
+					"reported": "RUMORED SPIDEY SIGHTINGS",
+					"messageCenter": "MESSAGE CENTER",
+					"audio": "TOGGLE AUDIO ON/OFF",
+					"neighborhood": "CENTER TO YOUR NEIGHTBORHOOD",
+					"globalMap": "GLOBAL MAP"
+				}
+			},
+			"preMap": {},
+			"soundOptIn": {
+				"ariaLabel": "Sound preferences",
+				"headline": "WELCOME TO THE SPIDEY TRACKER.\nINTERACT WITH THE MAP TO VIEW\nSPIDER-MAN SIGHTINGS\nALL OVER THE WORLD.",
+				"continueLabel": "CHOOSE YOUR SETTINGS AND START TRACKING",
+				"soundOnText": "SOUND ON",
+				"soundOffText": "SOUND OFF"
+			},
+			"tutorial": {
+				"autoCloseTimer": 7000
+			},
+			"inTrackerVideoPlayer": {
+				"ariaLabel": "Intro video",
+				"unmuteAriaLabel": "Tap to unmute",
+				"unmuteText": "TAP TO UNMUTE",
+				"skipText": "SKIP"
+			},
+			"startupVideo": {
+				"enabled": false,
+				"medium": "youtube",
+				"title": "A MESSAGE FROM NED",
+				"src": "https://www.youtube.com/watch?v=0ceb-6OoJw8",
+				"teaserSiteMode": {
+					"enabled": false,
+					"showSoundOptIn": true,
+					"hideSoundToggle": false,
+					"tickerMsg": "CHECK BACK SOON",
+					"tickerBehavior": "scroll",
+					"replayButtonText": "REPLAY VIDEO"
+				},
+				"teaserSiteModeWithVideo": {
+					"enabled": false,
+					"allowSoundOnPlay": true,
+					"tickerMsg": "PRODUCT LAUNCH TOMORROW",
+					"tickerBehavior": "scroll",
+					"ctaText": "WATCH A MESSAGE FROM OUR\nCEO AND FOUNDER, NED LEEDS",
+					"playBtnText": "PLAY VIDEO"
+				}
+			},
+			"frameUi": {
+				"trackerLogoAlt": "Tracker Logo",
+				"spideyFigureAriaLabel": "Spidey Figure"
+			},
+			"languageToggle": {
+				"enabled": false,
+				"currentLanguage": {
+					"text": "EN"
+				},
+				"optionalLanguage": {
+					"text": "FR",
+					"url": "https://spidey.tracker.net"
+				}
+			},
+			"pushNotification": {
+				"enabled": false,
+				"messageText": "WOULD YOU LIKE TO ENABLE SAMSUNG EXCLUSIVE NOTIFICATIONS?",
+				"yesLabel": "YES",
+				"noLabel": "NO",
+				"enablingText": "ENABLING...",
+				"enabledText": "ENABLED"
+			},
+			"mainMenu": {
+				"ariaLabel": "Main navigation menu",
+				"closeAriaLabel": "Close main menu",
+				"closeText": "CLOSE",
+				"navAriaLabel": "Main navigation",
+				"eventsToast": "EVENTS COMING SOON",
+				"items": {
+					"activityLog": {
+						"label": "ACTIVITY LOG",
+						"show": true
+					},
+					"reportSightings": {
+						"label": "REPORT SIGHTINGS",
+						"show": true
+					},
+					"webWatch": {
+						"label": "WEB WATCH",
+						"show": true
+					},
+					"videos": {
+						"label": "VIDEOS",
+						"show": true
+					},
+					"events": {
+						"label": "EVENTS",
+						"show": true
+					},
+					"help": {
+						"label": "HELP",
+						"show": true
+					},
+					"getTickets": {
+						"label": "GET TICKETS",
+						"show": false
+					},
+					"samsungDownloads": {
+						"label": "SAMSUNG EXCLUSIVE\nDOWNLOADS",
+						"show": true,
+						"exclusive": true
+					}
+				}
+			},
+			"tracking": {
+				"allowVideoSectionTracking": true
+			},
+			"lightbox": {
+				"closeAriaLabel": "Close",
+				"closeText": "CLOSE",
+				"singleImageAlt": "Lightbox content",
+				"singleIFrameTitle": "Get Tickets",
+				"videoGalleryKicker": "NOW PLAYING:",
+				"hideVideoListAriaLabel": "Hide video list",
+				"previousVideosAriaLabel": "Previous videos",
+				"nextVideosAriaLabel": "Next videos"
+			},
+			"samsungExclusives": {
+				"title": "SAMSUNG EXCLUSIVES",
+				"closeAriaLabel": "Close Samsung Exclusives",
+				"closeText": "CLOSE"
+			},
+			"activityLog": {
+				"title": "ACTIVITY LOG",
+				"closeAriaLabel": "Close Activity Log",
+				"closeText": "CLOSE",
+				"badgeTrailer": "TRAILER",
+				"badgeReported": "RUMORED",
+				"badgeEvent": "EVENT",
+				"badgeConfirmed": "CONFIRMED",
+				"sectionExplainer": {
+					"enabled": true,
+					"headerText": "ACTIVITY LOG INFO",
+					"closeButtonText": "CLOSE",
+					"bodyText": "Check this out - I built a running list of all the Spidey sightings and events. An easy way to make sure you're seeing all the latest updates."
+				}
+			},
+			"webWatch": {
+				"panelAriaLabel": "Web Watch panel",
+				"title": "WEB WATCH 1.0",
+				"closeAriaLabel": "Close Web Watch",
+				"closeText": "CLOSE",
+				"previousArticleAriaLabel": "Previous article",
+				"nextArticleAriaLabel": "Next article",
+				"sectionExplainer": {
+					"enabled": true,
+					"headerText": "WEB WATCH INFO",
+					"closeButtonText": "CLOSE",
+					"bodyText": "Honestly, it's hard to keep track of all the bad guys Spidey takes on, so I've started a collection with all the info I've put together from sightings."
+				}
+			},
+			"eventsPanel": {
+				"title": "EVENTS",
+				"panelAriaLabel": "Events panel",
+				"closeAriaLabel": "Close events",
+				"closeText": "CLOSE",
+				"emptyText": "No events available.",
+				"dateTbd": "DATE TBD",
+				"showImageAriaLabel": "Show image {n}",
+				"previousImageAriaLabel": "Previous image",
+				"nextImageAriaLabel": "Next image",
+				"watchVideoText": "Watch Video",
+				"sectionExplainer": {
+					"enabled": true,
+					"headerText": "EVENTS INFO",
+					"closeButtonText": "CLOSE",
+					"bodyText": "My sources tell me that Spider-Man might be making an appearance at some events… If you want to pop in yourself, they're all listed here."
+				}
+			},
+			"notificationCenter": {
+				"dismissAriaLabel": "Dismiss notification",
+				"newSightingsSingular": "{n} NEW SIGHTING SPOTTED",
+				"newSightingsPlural": "{n} NEW SIGHTINGS SPOTTED",
+				"unexploredSingular": "{n} UNEXPLORED SIGHTING",
+				"unexploredPlural": "{n} UNEXPLORED SIGHTINGS"
+			},
+			"map2D": {
+				"streetviewBackText": "BACK TO MAP",
+				"startView": "worldmap"
+			},
+			"helpScreen": {
+				"ariaLabel": "Help",
+				"closeAriaLabel": "Close help",
+				"closeText": "CLOSE",
+				"introText": "WELCOME! HERE'S A HANDY GUIDE TO HELP YOU NAVIGATE THE EXPERIENCE.",
+				"confirmedPinAlt": "Confirmed sighting pin",
+				"rumoredPinAlt": "Rumored sighting pin",
+				"eventPinAlt": "Event pin",
+				"confirmedTooltip": "CONFIRMED\\nSIGHTING",
+				"rumoredTooltip": "RUMORED\\nSIGHTING",
+				"eventTooltip": "EVENT",
+				"centerMapTooltip": "CENTER MAP",
+				"globalMapTooltip": "GLOBAL MAP",
+				"navigationTooltip": "NAVIGATION",
+				"msgCenterTooltip": "MESSAGE\\nCENTER",
+				"mapFiltersTooltip": "MAP FILTERS"
+			},
+			"map3D": {
+				"backTo2DText": "BACK TO MAP",
+				"tiltUp": "Tilt Up",
+				"rotateLeft": "Rotate Left",
+				"rotateRight": "Rotate Right",
+				"tiltDown": "Tilt Down"
+			},
+			"mapFilters": {
+				"panelAriaLabel": "Map filters",
+				"confirmedTitle": "Toggle confirmed sightings",
+				"rumoredTitle": "Toggle rumored sightings",
+				"confirmedOnToast": "CONFIRMED SIGHTINGS: ON",
+				"confirmedOffToast": "CONFIRMED SIGHTINGS: OFF",
+				"rumoredOnToast": "RUMORED SIGHTINGS: ON",
+				"rumoredOffToast": "RUMORED SIGHTINGS: OFF"
+			},
+			"radar": {
+				"zoomGlobal": "Zoom to global view",
+				"centerLocation": "Center on my location",
+				"toastZoomGlobal": "centering to global view",
+				"toastCenterLocation": "centering to your neighborhood",
+				"toastCenterLocationError": "unable to resolve neighborhood location",
+				"zoomGlobalAlt": "Zoom to global",
+				"centerAlt": "Center"
+			},
+			"msgCenter": {
+				"alertAriaLabel": "Message alerts",
+				"tickerAriaLabel": "Status ticker",
+				"openSightingImageAriaLabel": "Open sighting image",
+				"defaultLabel": "RUMORED SIGHTING",
+				"defaultTitle": "Spidey Sighting",
+				"tickerByHandle": "SIGHTING BY @{handle}",
+				"tickerFromX": "SIGHTING FROM X (TWITTER)"
+			},
+			"footer": {
+				"creditsTitle": "CREDITS",
+				"closeCreditsAriaLabel": "Close credits panel",
+				"brandAlt": "Spider-Man: Brand New Day",
+				"releaseDateAlt": "Release Date",
+				"samsungAlt": "Powered by Samsung",
+				"legalAriaLabel": "Legal links",
+				"copyright": "© & ™ 2026 MARVEL. ©2026 CPII and TSG Entertainment II LLC.",
+				"legalLinks": [
+					{
+						"text": "Privacy Policy",
+						"url": "https://intl.sonypictures.com/en/privacy-policy",
+						"target": "_blank"
+					},
+					{
+						"text": "Terms of Use",
+						"url": "https://intl.sonypictures.com/en/terms-of-use",
+						"target": "_blank"
+					},
+					{
+						"text": "Cookie Consent Tool",
+						"url": "javascript:OneTrust.ToggleInfoDisplay();",
+						"target": "_self"
+					},
+					{
+						"id": "credits",
+						"text": "Credits",
+						"url": "#",
+						"target": "_self"
+					}
+				],
+				"footerCreditsLinks": [
+					{
+						"text": "SONY PICTURES",
+						"url": "https://www.sonypictures.com/",
+						"target": "_blank"
+					},
+					{
+						"text": "PRIVACY POLICY",
+						"url": "https://intl.sonypictures.com/en/privacy-policy",
+						"target": "_blank"
+					},
+					{
+						"text": "TERMS OF USE",
+						"url": "https://intl.sonypictures.com/en/terms-of-use",
+						"target": "_blank"
+					},
+					{
+						"text": "COOKIE CONSENT TOOL",
+						"url": "javascript:OneTrust.ToggleInfoDisplay();",
+						"target": "_self"
+					}
+				]
+			}
+		},
+		"consentModals": {
+			"video": {
+				"header": "We Use Cookies",
+				"content": "<div class=\"video-blocked-msg\"><p>To view videos on this site, you need to enable certain cookies.</p><p><button class=\"btn btn-primary\" id=\"btn-show-consent-toggle\" tabindex=\"-1\">Privacy Settings</button></p></div>"
+			},
+			"ticketing": {
+				"header": "FUNCTIONAL COOKIES REQUIRED",
+				"content": "To view ticketing options, please enable functional cookies in your privacy settings.<p style=\"margin-top:18px;\"><a href=\"javascript:OneTrust.ToggleInfoDisplay();\" class=\"btn btn-primary\">Privacy Settings</a></p>"
+			}
+		},
+		"watchTrailer": {
+			"buttonText": "WATCH TRAILER",
+			"ariaLabel": "Watch Trailer",
+			"show": true,
+			"trailerSrc": "https://www.youtube.com/watch?v=P3uI5sLosKU",
+			"trailerTitle": "Official Trailer 3"
+		},
+		"getTickets": {
+			"buttonText": "GET TICKETS",
+			"ariaLabel": "GET TICKETS",
+			"ticketingAlt": "Ticketing interface",
+			"show": false,
+			"widget": {
+				"enabled": true,
+				"assetBaseUrl": "https://d33t5dshwl6j0s.cloudfront.net/movies/spidermanbrandnewday/us/",
+				"jquerySrc": "https://d33t5dshwl6j0s.cloudfront.net/movies/spidermanbrandnewday/us/assets/js/jquery-3.6.0.min.js",
+				"scriptSrc": "https://d33t5dshwl6j0s.cloudfront.net/movies/spidermanbrandnewday/us/assets/js/sycaconst.js"
+			},
+			"linkOutToUrl": "",
+			"iframeUrl": "https://d33t5dshwl6j0s.cloudfront.net/movies/spidermanbrandnewday/us/index.html",
+			"imageUrl": ""
+		},
+		"pinCards": {
+			"viewSightingText": "VIEW SIGHTING",
+			"playTrailerText": "PLAY TRAILER",
+			"viewIn3dText": "VIEW IN 3D",
+			"view360Text": "VIEW 360",
+			"viewEventText": "VIEW EVENT"
+		},
+		"tickerMessages": {
+			"appLoading": "LOADING",
+			"helpScreenTutorial": "TAP TO SKIP",
+			"helpScreenClose": "TAP TO CLOSE",
+			"preMapScreen": "LOADING",
+			"preloaderTapToLaunch": "TAP TO LAUNCH",
+			"preloaderSelectSoundOption": "SELECT SOUND OPTION",
+			"startupVideoIncoming": "INCOMING MESSAGE FROM NED",
+			"liveMapShare": "SHARE YOUR SPIDEY SIGHTINGS ON X"
+		},
+		"preloader": {
+			"dangleClearancePx": 5,
+			"lines": [
+				"INITIALIZING SPIDEY TRACKER v4.2.0...",
+				"BOOTING CORE SERVICES [OK]",
+				"INITIALIZING MAP RENDER PIPELINE...",
+				"LOADING BASE ASSETS: FRAME UI [OK]",
+				"LOADING BASE ASSETS: TICKER MODULE [OK]",
+				"STARTING EVENT BUS [OK]",
+				"CALIBRATING SPRITESHEET RENDERER [OK]",
+				"WARMING IMAGE CACHE...",
+				"CHECKING FONT REGISTRY [OK]",
+				"VALIDATING ROUTE HANDLERS [OK]",
+				"BUILDING API CONNECTION POOL...",
+				"AUTHENTICATING SESSION TOKENS [OK]",
+				"RUNNING BOOT SELF-TEST: PASS",
+				"VERIFYING FEATURE FLAGS [OK]",
+				"PRELOADING CRITICAL UI FRAGMENTS...",
+				"MOUNTING OVERLAY CONTROLLERS [OK]",
+				"SYNCING STATE STORE [OK]",
+				"INITIALIZING LIGHTBOX ROUTES...",
+				"CHECKING MEDIA GATES [OK]",
+				"PATCHING FALLBACK HANDLERS [OK]",
+				"SCANNING MODULE DEPENDENCIES...",
+				"RESOLVING ASYNC TASK QUEUE [OK]",
+				"COMPILING BOOT LOG BUFFER...",
+				"VALIDATING RUNTIME CONFIG [OK]",
+				"STARTING HEALTH MONITORS [OK]",
+				"RUNNING ROUTINE CHECK: MEMORY CLEAN",
+				"RUNNING ROUTINE CHECK: NETWORK READY",
+				"RUNNING ROUTINE CHECK: ASSETS VERIFIED",
+				"RUNNING ROUTINE CHECK: OVERLAY READY",
+				"READYING LIVE UPDATE LOOP...",
+				"ENABLING TELEMETRY HOOKS [OK]",
+				"INITIALIZING CONSENT-SAFE MEDIA PATH...",
+				"SECURE CHANNEL ESTABLISHED [OK]",
+				"ALL SYSTEMS NOMINAL — TRACKER ONLINE"
+			]
+		}
+	},
+	"xFeed": {
+		"title": "SPIDEY TRACKER",
+		"closeAriaLabel": "Close X feed",
+		"closeText": "CLOSE",
+		"panelAriaLabel": "X feed panel",
+		"postsAriaLabel": "X feed posts",
+		"handle": "spideytracker",
+		"endpoint": "./x-feed.php",
+		"xFeedApiRefreshCacheFrequency": 3600,
+		"maxPosts": 20,
+		"emptyText": "No posts to show right now.",
+		"errorText": "Unable to load the X feed right now.",
+		"loadingText": "Loading posts...",
+		"reportCtaText": "REPORT YOUR SIGHTINGS ON X",
+		"reportCtaUrl": "https://x.com/spideytracker",
+		"stickyPost": {
+			"bodyText": "Have a Spidey sighting? Share yours using #SpideyTracker on X. Don't forget to include the location… cross-streets, city, country, I'll take whatever info you're able to grab. Together, let's find Spider-Man!"
+		}
+	},
+	"spideyPins": [
+		{
+			"id": "official-trailer",
+			"pinType": "trailer",
+			"imageSrc": "",
+			"cardThumbImg": "./images/sightings/thumb_trailer2.jpg",
+			"lat": 40.7443743,
+			"lng": -73.9210032,
+			"title": "Official Trailer",
+			"trailer_src": "https://www.youtube.com/watch?v=Q27BvUipKn8",
+			"url": null,
+			"createdAt": "2026-06-16T02:23:22.000Z"
+		},
+		{
+			"id": "Spider-Man and Punisher",
+			"pinType": "confirmed",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanPunisher.gif",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanPunisher.gif",
+			"lat": 40.717583,
+			"lng": -74.007667,
+			"title": "Spider-Man and Punisher",
+			"lightboxMediaSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanPunisher.gif",
+			"url": null,
+			"createdAt": "2026-06-16T02:23:22.000Z"
+		},
+		{
+			"id": "Spider-Man on a Tank",
+			"pinType": "confirmed",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanTank.gif",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanTank.gif",
+			"lat": 40.7353228,
+			"lng": -74.0090309,
+			"title": "Spider-Man on a Tank",
+			"lightboxMediaSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanTank.gif",
+			"url": null,
+			"createdAt": "2026-06-16T02:23:22.000Z"
+		},
+		{
+			"id": "Spider-Man on the Bus",
+			"pinType": "confirmed",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanBus.gif",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanBus.gif",
+			"lat": 40.7250828,
+			"lng": -73.9955409,
+			"title": "Spider-Man on the Bus",
+			"lightboxMediaSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanBus.gif",
+			"url": null,
+			"createdAt": "2026-06-16T02:23:22.000Z"
+		},
+		{
+			"id": "Spider-Man Receives Key to the City",
+			"pinType": "confirmed",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanKey.gif",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanKey.gif",
+			"lat": 40.712772,
+			"lng": -74.006058,
+			"title": "Spider-Man Receives Key to the City",
+			"lightboxMediaSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanKey.gif",
+			"url": null,
+			"createdAt": "2026-06-16T02:23:22.000Z"
+		},
+		{
+			"id": "Spider-Man and The Hand",
+			"pinType": "confirmed",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanTheHand.gif",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanTheHand.gif",
+			"lat": 40.7240713,
+			"lng": -74.003176,
+			"title": "Spider-Man and The Hand",
+			"lightboxMediaSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanTheHand.gif",
+			"url": null,
+			"createdAt": "2026-06-16T02:23:22.000Z"
+		},
+		{
+			"id": "Spider-Man and Boomerang",
+			"pinType": "confirmed",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanBoomerang.gif",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanBoomerang.gif",
+			"lat": 40.7551169,
+			"lng": -73.98478,
+			"title": "Spider-Man and Boomerang",
+			"lightboxMediaSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanBoomerang.gif",
+			"url": null,
+			"createdAt": "2026-06-16T02:23:22.000Z"
+		},
+		{
+			"id": "Spider-Man Saves a Bystander",
+			"pinType": "confirmed",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanSwinging.gif",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanSwinging.gif",
+			"lat": 40.7585578,
+			"lng": -73.9763641,
+			"title": "Spider-Man Saves a Bystander",
+			"lightboxMediaSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanSwinging.gif",
+			"url": null,
+			"createdAt": "2026-06-16T02:23:22.000Z"
+		},
+		{
+			"id": "Spider-Man and Tarantula",
+			"pinType": "confirmed",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanTarantula.gif",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanTarantula.gif",
+			"lat": 40.6914188,
+			"lng": -74.0122927,
+			"title": "Spider-Man and Tarantula",
+			"lightboxMediaSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanTarantula.gif",
+			"url": null,
+			"createdAt": "2026-06-16T02:23:22.000Z"
+		},
+		{
+			"id": "Spider-Man and The Scorpion",
+			"pinType": "confirmed",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanAndTheScorpion.gif",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanAndTheScorpion.gif",
+			"lat": 40.6885328,
+			"lng": -73.9931239,
+			"title": "Spider-Man and The Scorpion",
+			"lightboxMediaSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanAndTheScorpion.gif",
+			"url": null,
+			"createdAt": "2026-06-18T00:39:53.000Z"
+		},
+		{
+			"id": "Wedding Crashing",
+			"pinType": "confirmed",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/WeddingCrashing.gif",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/WeddingCrashing.gif",
+			"lat": 40.7489961,
+			"lng": -73.9417857,
+			"title": "Wedding Crashing",
+			"lightboxMediaSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/WeddingCrashing.gif",
+			"url": null,
+			"createdAt": "2026-06-18T00:39:53.000Z"
+		},
+		{
+			"id": "Spider-Man and The Hulk",
+			"pinType": "confirmed",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanAndTheHulk.gif",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanAndTheHulk.gif",
+			"lat": 40.7648557,
+			"lng": -73.9753442,
+			"title": "Spider-Man and The Hulk",
+			"lightboxMediaSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/inworld_gifs/SpidermanAndTheHulk.gif",
+			"url": null,
+			"createdAt": "2026-06-18T00:39:53.000Z"
+		},
+		{
+			"id": "row13-spotted-by-osuspidey",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_13/Row_13_@osuspidey_thm.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_13/Row_13_@osuspidey.jpg",
+			"displayLocation": "Columnbus, Ohio",
+			"lat": 40.0017,
+			"lng": -83.0155,
+			"title": "Spotted by @osuspidey",
+			"url": null,
+			"createdAt": "2026-06-18T06:08:16.000Z",
+			"fanXHandle": "@osuspidey",
+			"x_msg": ""
+		},
+		{
+			"id": "row14-spotted-by-alexarellano497",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_14/Row_14_@AlexArellano497_thm.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_14/Row_14_@AlexArellano497.jpg",
+			"displayLocation": "Mexico City, Mexico",
+			"lat": 19.4246,
+			"lng": -99.1947,
+			"title": "Spotted by @AlexArellano497",
+			"url": null,
+			"createdAt": "2026-06-18T06:08:16.000Z",
+			"fanXHandle": "@AlexArellano497",
+			"x_msg": ""
+		},
+		{
+			"id": "row15-spotted-by-biancabellacos-cpillirone",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_15/Row_15_@BiancaBellaCos_@cpillirone_thm.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_15/Row_15_@BiancaBellaCos_@cpillirone.jpg",
+			"displayLocation": "Melbourne, Australia",
+			"lat": -37.8136,
+			"lng": 144.9631,
+			"title": "Spotted by @BiancaBellaCos & @cpillirone",
+			"url": null,
+			"createdAt": "2026-06-18T06:08:16.000Z",
+			"fanXHandle": "@BiancaBellaCos & @cpillirone",
+			"x_msg": ""
+		},
+		{
+			"id": "row16-spotted-by-glandliang",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_16/Row_16_@glandliang_thm.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_16/Row_16_@glandliang.jpg",
+			"displayLocation": "Singapore, Singapore",
+			"lat": 1.3381,
+			"lng": 103.8455,
+			"title": "Spotted by @glandliang",
+			"url": null,
+			"createdAt": "2026-06-18T06:08:16.000Z",
+			"fanXHandle": "@glandliang",
+			"x_msg": "",
+			"hidden": true
+		},
+		{
+			"id": "row25-spotted-by-spideyburak",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_25/Row_25_@spideyburak_thm.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_25/Row_25_@spideyburak.jpg",
+			"displayLocation": "Istanbul, Turkey",
+			"lat": 41.0082,
+			"lng": 28.9784,
+			"title": "Spotted by @spideyburak",
+			"url": null,
+			"createdAt": "2026-06-18T06:08:16.000Z",
+			"fanXHandle": "@spideyburak",
+			"x_msg": ""
+		},
+		{
+			"id": "row25b-spotted-by-dannero",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_25b/Row_25_@dannero_thm.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_25b/Row_25_@dannero.jpg",
+			"displayLocation": "München, Germany",
+			"lat": 48.1372,
+			"lng": 11.5756,
+			"title": "Spotted by @dannero",
+			"url": null,
+			"createdAt": "2026-06-19T01:08:58.000Z",
+			"fanXHandle": "@dannero",
+			"x_msg": ""
+		},
+		{
+			"id": "row29-spotted-by-gauchoarania",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_29/Row_29_@gauchoarania_thm.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_29/Row_29_@gauchoarania.jpg",
+			"displayLocation": "Buenos Aires, Argentina",
+			"lat": -34.6037,
+			"lng": -58.3816,
+			"title": "Spotted by @gauchoarania",
+			"url": null,
+			"createdAt": "2026-06-18T06:08:16.000Z",
+			"fanXHandle": "@gauchoarania",
+			"x_msg": ""
+		},
+		{
+			"id": "row19-spotted-by-anggaxnicholls",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_19/Row_19_@Anggaxnicholls_thm.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_19/Row_19_@Anggaxnicholls.jpg",
+			"displayLocation": "Jakarta, Indonesia",
+			"lat": -6.2088,
+			"lng": 106.8456,
+			"title": "Spotted by @Anggaxnicholls",
+			"url": null,
+			"createdAt": "2026-06-18T23:04:31.000Z",
+			"fanXHandle": "@Anggaxnicholls",
+			"x_msg": ""
+		},
+		{
+			"id": "row26-spotted-by-dylanscharitywalks",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_26/Row_26_@dylanscharitywalks_thm.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_26/Row_26_@dylanscharitywalks.jpg",
+			"displayLocation": "Snowdonia, Wales",
+			"lat": 53.0667,
+			"lng": -3.9167,
+			"title": "Spotted by @dylanscharitywalks",
+			"url": null,
+			"createdAt": "2026-06-19T01:16:22.000Z",
+			"fanXHandle": "@dylanscharitywalks",
+			"x_msg": ""
+		},
+		{
+			"id": "row27-spotted-by-wirleycontaifer",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_27/Row_27_@wirleycontaifer_thm.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_27/Row_27_@wirleycontaifer.jpg",
+			"displayLocation": "Rio de Janeiro, Brasil",
+			"lat": -22.9068,
+			"lng": -43.1729,
+			"title": "Spotted by @wirleycontaifer",
+			"url": null,
+			"createdAt": "2026-06-19T01:20:30.000Z",
+			"fanXHandle": "@wirleycontaifer",
+			"x_msg": ""
+		},
+		{
+			"id": "samsung_ugc_plano",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/samsung_ugc_plano/samsung_ugc_plano_thm.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/samsung_ugc_plano/samsung_ugc_plano_preview.jpg",
+			"lightboxVideoSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/samsung_ugc_plano/samsung_ugc_plano_2.mp4",
+			"lat": 33.0603,
+			"lng": -96.7498,
+			"title": "Spotted by @SamsungMobileUS",
+			"location": "Plano, TX",
+			"displayLocation": "6625 Excellence Way Plano, TX 75023",
+			"url": null,
+			"createdAt": "2026-06-23T23:18:21.000Z",
+			"fanXHandle": "@SamsungMobileUS",
+			"x_msg": "",
+			"hidden": false
+		},
+		{
+			"id": "row36-spotted-by-fer91spider",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_36/row_36_@Fer91Spider_thm.jpeg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_36/row_36_@Fer91Spider.jpeg",
+			"displayLocation": "Lima, Peru",
+			"lat": -12.0464,
+			"lng": -77.0428,
+			"title": "Spotted by @Fer91Spider",
+			"url": null,
+			"createdAt": "2026-06-24T00:00:00.000Z",
+			"fanXHandle": "@Fer91Spider",
+			"x_msg": "",
+			"hidden": true
+		},
+		{
+			"id": "row37-spotted-by-dinokaiju1227",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_37/row_37_@DinoKaiju1227_thm.jpeg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_37/row_37_@DinoKaiju1227.jpeg",
+			"displayLocation": "Acworth, GA",
+			"lat": 34.0659,
+			"lng": -84.6796,
+			"title": "Spotted by @DinoKaiju1227",
+			"url": null,
+			"createdAt": "2026-06-24T00:00:00.000Z",
+			"fanXHandle": "@DinoKaiju1227",
+			"x_msg": ""
+		},
+		{
+			"id": "row38-spotted-by-jaimekulz",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_38/row_38_@Jaimekulz_thm.jpeg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_38/row_38_@Jaimekulz.jpeg",
+			"displayLocation": "Nuevo León, Mexico",
+			"lat": 25.5922,
+			"lng": -99.9962,
+			"title": "Spotted by @Jaimekulz",
+			"url": null,
+			"createdAt": "2026-06-24T00:00:00.000Z",
+			"fanXHandle": "@Jaimekulz",
+			"x_msg": ""
+		},
+		{
+			"id": "row39-spotted-by-kal-devil",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_39/row_39_@kal_devil_thm.jpeg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_39/row_39_@kal_devil.jpeg",
+			"displayLocation": "Polanco, Mexico City",
+			"lat": 19.4328,
+			"lng": -99.1939,
+			"title": "Spotted by @kal_devil_",
+			"url": null,
+			"createdAt": "2026-06-24T00:00:00.000Z",
+			"fanXHandle": "@kal_devil_",
+			"x_msg": ""
+		},
+		{
+			"id": "row40-spotted-by-michaelmichelmx",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_40/row_40_@MichaelMichelMX_thm.jpeg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_40/row_40_@MichaelMichelMX.jpeg",
+			"displayLocation": "Cuauhtémoc, Mexico City",
+			"lat": 19.4353,
+			"lng": -99.1478,
+			"title": "Spotted by @MichaelMichelMX",
+			"url": null,
+			"createdAt": "2026-06-24T00:00:00.000Z",
+			"fanXHandle": "@MichaelMichelMX",
+			"x_msg": ""
+		},
+		{
+			"id": "row41-spotted-by-kennythedevil",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_41/row_41_@Kennythedevil_thm.jpeg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_41/row_41_@Kennythedevil.jpeg",
+			"displayLocation": "Nutley, New Jersey",
+			"lat": 40.8218,
+			"lng": -74.1573,
+			"title": "Spotted by @Kennythedevil_",
+			"url": null,
+			"createdAt": "2026-06-24T00:00:00.000Z",
+			"fanXHandle": "@Kennythedevil_",
+			"x_msg": ""
+		},
+		{
+			"id": "row42-spotted-by-takisusa",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_42/row_42_@takisusa_2.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_42/row_42_@takisusa_1.jpg",
+			"lightboxImages": [
+				"https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_42/row_42_@takisusa_1.jpg",
+				"https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_42/row_42_@takisusa_2.jpg",
+				"https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_42/row_42_@takisusa_3.jpg",
+				"https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_42/row_42_@takisusa_4.jpg"
+			],
+			"displayLocation": "Manhattan, New York City",
+			"lat": 40.7831,
+			"lng": -73.9712,
+			"title": "Spotted by @takisusa",
+			"url": null,
+			"createdAt": "2026-07-02T00:00:00.000Z",
+			"fanXHandle": "@takisusa",
+			"x_msg": "July 10-11th: NY! Spider-Man: Brand New Day x Takis bags are out on the streets. Be the first to get your hands on them! Follow @takisusa and follow the hunt."
+		},
+		{
+			"id": "samsung_ugc_queens",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/samsung_ugc_queens/samsung_ugc_queens_thm.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/samsung_ugc_queens/samsung_ugc_queens.jpg",
+			"lightboxVideoSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/samsung_ugc_queens/samsung_ugc_queens_2.mp4",
+			"displayLocation": "90-15 Queens Blvd, Space 1060 Queens, NY 11373",
+			"lat": 40.7356,
+			"lng": -73.8699,
+			"title": "Spotted by @SamsungMobileUS",
+			"url": null,
+			"createdAt": "2026-06-26T00:00:00.000Z",
+			"fanXHandle": "@SamsungMobileUS",
+			"x_msg": ""
+		},
+		{
+			"id": "samsung_ugc_london",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/samsung_ugc_london/samsung_ugc_london.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/samsung_ugc_london/samsung_ugc_london.jpg",
+			"lightboxVideoSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/samsung_ugc_london/samsung_ugc_london.mp4",
+			"location": "London, UK",
+			"displayLocation": "Coal Drops Yard, King's Cross, London, N1C 4DQ",
+			"lat": 51.5363,
+			"lng": -0.1244,
+			"title": "Spotted by @SamsungMobileUS",
+			"url": null,
+			"createdAt": "2026-06-29T00:00:00.000Z",
+			"fanXHandle": "@SamsungMobileUS",
+			"x_msg": ""
+		},
+		{
+			"id": "row44-spotted-by-artofaidens",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_44/row_44_@ArtOfAidenS_thm.jpeg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_44/row_44_@ArtOfAidenS.jpeg",
+			"location": "Oceanside, California",
+			"displayLocation": "Oceanside, California",
+			"lat": 33.1959,
+			"lng": -117.3795,
+			"title": "Spotted by @ArtOfAidenS",
+			"url": null,
+			"createdAt": "2026-06-30T00:00:00.000Z",
+			"fanXHandle": "@ArtOfAidenS",
+			"x_msg": ""
+		},
+		{
+			"id": "row45-spotted-by-azdeadpool1",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_45/row_45_@AZDeadpool1_thm.jpeg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_45/row_45_@AZDeadpool1.jpeg",
+			"location": "Downtown Mesa, AZ",
+			"displayLocation": "Downtown Mesa, AZ",
+			"lat": 33.4152,
+			"lng": -111.8315,
+			"title": "Spotted by @AZDeadpool1",
+			"url": null,
+			"createdAt": "2026-06-30T00:00:00.000Z",
+			"fanXHandle": "@AZDeadpool1",
+			"x_msg": ""
+		},
+		{
+			"id": "row46-spotted-by-alangarciareal",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_46/row_46_@AlanGarciaReal_thm.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_46/row_46_@AlanGarciaReal.jpg",
+			"location": "Buenavista, México City",
+			"displayLocation": "Buenavista, México City",
+			"lat": 19.4487,
+			"lng": -99.1506,
+			"title": "Spotted by @AlanGarciaReal",
+			"url": null,
+			"createdAt": "2026-07-08T00:00:00.000Z",
+			"fanXHandle": "@AlanGarciaReal",
+			"x_msg": ""
+		},
+		{
+			"id": "row36-spotted-by-mishoamoli",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/event_attachments/Row_36_@MishoAmoli/Row_36_@MishoAmoli.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/event_attachments/Row_36_@MishoAmoli/Row_36_@MishoAmoli.jpg",
+			"location": "Madrid, Spain",
+			"displayLocation": "Madrid, Spain",
+			"lat": 40.4168,
+			"lng": -3.7038,
+			"title": "Spotted by @MishoAmoli",
+			"url": null,
+			"createdAt": "2026-07-09T00:00:00.000Z",
+			"fanXHandle": "@MishoAmoli",
+			"x_msg": "Contenido de Misho en X (Colaboración con Ibai Llanos)\n\nVer más: https://x.com/MishoAmoli/status/2069443995210572002?s=20"
+		},
+		{
+			"id": "row9-century-city-billboard",
+			"pinType": "rumored",
+			"pinTypeOverride": "confirmed",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_9/row_9_CenturyCity.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_9/row_9_CenturyCity.jpg",
+			"location": "Century City Mall Exterior facing Santa Monica Blvd.",
+			"displayLocation": "Los Angeles, CA",
+			"lat": 34.0583,
+			"lng": -118.4189,
+			"title": "Billboard caught in Spider-Man's Web",
+			"url": null,
+			"createdAt": "2026-07-17T00:00:00.000Z",
+			"fanXHandle": "",
+			"x_msg": "7/13 - 8/1 Billboard caught in Spider-Man's Web"
+		},
+		{
+			"id": "row52-spotted-by-in4343v",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_52/row_52_@In4343v_thm.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_52/row_52_@In4343v.jpg",
+			"displayLocation": "a plaza Manacar, Ciudad de México",
+			"lat": 19.3564,
+			"lng": -99.1805,
+			"title": "Spotted by @In4343v",
+			"url": null,
+			"createdAt": "2026-07-21T00:00:00.000Z",
+			"fanXHandle": "@In4343v",
+			"x_msg": ""
+		},
+		{
+			"id": "row53-spotted-by-astnshngwebhead",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_53/row_53_@AstnshngWebhead_thm.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_53/row_53_@AstnshngWebhead.jpg",
+			"displayLocation": "Sacramento, CA",
+			"lat": 38.5816,
+			"lng": -121.4944,
+			"title": "Spotted by @AstnshngWebhead",
+			"url": null,
+			"createdAt": "2026-07-21T00:00:00.000Z",
+			"fanXHandle": "@AstnshngWebhead",
+			"x_msg": ""
+		},
+		{
+			"id": "row56-spotted-by-martnbeltrn19",
+			"pinType": "rumored",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_56/row_56_@MartnBeltrn19_thm.jpg",
+			"imageSrc": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/ugc_attachments/row_56/row_56_@MartnBeltrn19.jpg",
+			"displayLocation": "Central University, Quito-Ecuador",
+			"lat": -0.2176,
+			"lng": -78.5014,
+			"title": "Spotted by @MartnBeltrn19",
+			"url": null,
+			"createdAt": "2026-07-21T00:00:01.000Z",
+			"fanXHandle": "@MartnBeltrn19",
+			"x_msg": ""
+		},
+		{
+			"id": "joes-pizza",
+			"pinType": "confirmed",
+			"lat": 40.733236,
+			"lng": -73.987685,
+			"title": "Joe's Pizza",
+			"googleMapsEmbedPanoUrl": "https://www.google.com/maps/embed?pb=!4v1784619378834!6m8!1m7!1sCAoSF0NJSE0wb2dLRUlDQWdJRHFwZXlqendF!2m2!1d40.73329100315389!2d-73.98765002537232!3f51.23249690505381!4f-8.195895047924324!5f0.4000000000000002",
+			"url": null,
+			"createdAt": "2026-06-02T00:00:00.000Z",
+			"hidden": true
+		},
+		{
+			"id": "lic-deli-grocery-streetview",
+			"pinType": "confirmed",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/streetview/lic-deli-grocery/lic-deli-grocery-thm.jpg",
+			"lat": 40.7535,
+			"lng": -73.9344,
+			"title": "Google 360° @L.I.C. Deli & Grocery",
+			"panoTickerMsg": "L.I.C Deli & Grocery",
+			"googleMapsEmbedPanoUrl": "https://www.google.com/maps/embed?pb=!4v1784747264345!6m8!1m7!1sen2wBwARxj7ZVm7XyTD8Qw!2m2!1d40.75346576127939!2d-73.93435103041239!3f32.94175140841614!4f-7.783503855354056!5f0.7820865974627469",
+			"url": null,
+			"createdAt": "2026-07-24T12:00:00.000Z",
+			"hidden": false
+		},
+		{
+			"id": "peter-parkers-apartment",
+			"pinType": "confirmed",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/streetview/peter-parkers-apartment/peter-parkers-apartment-thm.jpg",
+			"lat": 40.7443,
+			"lng": -73.9213,
+			"title": "Google 360° @Peter Parker's Apartment",
+			"panoTickerMsg": "Peter Parker's Apartment",
+			"googleMapsEmbedPanoUrl": "https://www.google.com/maps/embed?pb=!4v1784761863181!6m8!1m7!1sZSArWE7Ur6zlJ85a-I9MUQ!2m2!1d40.74434167417746!2d-73.92130177566523!3f76.89!4f10.689999999999998!5f2.0917476682942455",
+			"url": null,
+			"createdAt": "2026-07-24T12:00:00.000Z",
+			"hidden": false
+		},
+		{
+			"id": "washington-square-park",
+			"pinType": "confirmed",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/streetview/washington-square-park/washington-square-park-thm.jpg",
+			"lat": 40.73138418868319,
+			"lng": -73.99697935340859,
+			"title": "Google 360° @Washington Sq. Park",
+			"panoTickerMsg": "Washington Square Park",
+			"googleMapsEmbedPanoUrl": "https://www.google.com/maps/embed?pb=!4v1784823515751!6m8!1m7!1sLlULdrbiXG9Yl0TFUuoobw!2m2!1d40.73138418868319!2d-73.99697935340859!3f218.21!4f5.969999999999999!5f0.7820865974627469",
+			"url": null,
+			"createdAt": "2026-07-24T12:00:00.000Z",
+			"hidden": false
+		},
+		{
+			"id": "madison-square-park",
+			"pinType": "confirmed",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/streetview/madison-square-park/madison-square-park-thm.jpg",
+			"lat": 40.742,
+			"lng": -73.9872,
+			"title": "Google 360° @Madison Sq. Park",
+			"panoTickerMsg": "Madison Square Park",
+			"googleMapsEmbedPanoUrl": "https://www.google.com/maps/embed?pb=!4v1784762010029!6m8!1m7!1sLdTmvmoqKh4p-8YoEYIvvA!2m2!1d40.74200152237826!2d-73.98718757820474!3f115.79!4f-0.39000000000000057!5f0.7820865974627469",
+			"url": null,
+			"createdAt": "2026-07-24T12:00:00.000Z",
+			"hidden": false
+		},
+		{
+			"id": "parker-castle-hill",
+			"pinType": "confirmed",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/streetview/parker-castle-hill/parker-castle-hill-thm.jpg",
+			"lat": 40.8399,
+			"lng": -73.8527,
+			"title": "Google 360° @Parker St. & Castle Hill Ave.",
+			"panoTickerMsg": "Parker St. & Castle Hill Ave.",
+			"googleMapsEmbedPanoUrl": "https://www.google.com/maps/embed?pb=!4v1784762151543!6m8!1m7!1s6j4JwSPb8ngF9dwpQ1kp0w!2m2!1d40.83987096263225!2d-73.85268726487763!3f320.23!4f-7.260000000000005!5f0.7820865974627469",
+			"url": null,
+			"createdAt": "2026-07-24T12:00:00.000Z",
+			"hidden": false
+		},
+		{
+			"id": "regal-union-square",
+			"pinType": "confirmed",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/streetview/regal-union-sq-theater/regal-union-sq-theater_thm.jpg",
+			"lat": 40.7342,
+			"lng": -73.9907,
+			"title": "Google 360° @Regal Union Sq. Theater",
+			"panoTickerMsg": "Regal Union Square",
+			"googleMapsEmbedPanoUrl": [
+				"https://www.google.com/maps/embed?pb=!4v1784873912523!6m8!1m7!1sCAoSHENJQUJJaEQ4SXVQdXF2OGx6c185NEVrQk1CZFY.!2m2!1d40.73414!2d-73.99074999999999!3f7.350907039807365!4f-12.87747341724645!5f0.7820865974627469"
+			],
+			"url": null,
+			"createdAt": "2026-07-24T12:00:00.000Z",
+			"hidden": true
+		},
+		{
+			"id": "regal-time-square",
+			"pinType": "confirmed",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/streetview/regal-time-sq-theater/regal-time-sq-theater_thm.jpg",
+			"lat": 40.7563,
+			"lng": -73.9884,
+			"title": "Google 360° @Regal Times Sq. Theater",
+			"panoTickerMsg": "Regal Times Square",
+			"googleMapsEmbedPanoUrl": [
+				"https://www.google.com/maps/embed?pb=!4v1784919382938!6m8!1m7!1sCAoSHENJQUJJaEFROXRhTGg5dmVYWlllYkRTWmE0U1k.!2m2!1d40.7572707!2d-73.9890168!3f353.39090173436546!4f-8.464369858253036!5f0.7820865974627469",
+				"https://www.google.com/maps/embed?pb=!4v1784919396819!6m8!1m7!1sCAoSHENJQUJJaEFQRWNRMGM0cnVWWUJkVmFTbkhfUEo.!2m2!1d40.7572685!2d-73.98898330000002!3f327.0830069977495!4f2.8538368270824748!5f0.7820865974627469",
+				"https://www.google.com/maps/embed?pb=!4v1784919407499!6m8!1m7!1sCAoSHENJQUJJaEI0UXhMaC12WXhadmV0VjZ4N0RMMWc.!2m2!1d40.7572552!2d-73.9889673!3f88.38473865858698!4f3.383102632458886!5f0.7820865974627469"
+			],
+			"url": null,
+			"createdAt": "2026-07-24T12:00:00.000Z",
+			"hidden": true
+		},
+		{
+			"id": "alamo-drafthouse-brooklyn",
+			"pinType": "confirmed",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/streetview/alamo-drafthouse-brooklyn/alamo-drafthouse-brooklyn_thm.jpg",
+			"lat": 40.6924,
+			"lng": -73.9878,
+			"title": "Google 360° @Alamo Drafthouse Brooklyn Theater",
+			"panoTickerMsg": "Alamo Drafthouse Brooklyn",
+			"googleMapsEmbedPanoUrl": [
+				"https://www.google.com/maps/embed?pb=!4v1784870510754!6m8!1m7!1sCAoSHENJQUJJaEJlbjdnN2lHV29Ya01WTlpqd1NjRk0.!2m2!1d40.6911671!2d-73.9831396!3f0!4f0!5f0.7820865974627469",
+				"https://www.google.com/maps/embed?pb=!4v1784870640243!6m8!1m7!1sCAoSHENJQUJJaEM0UVM1N2hFLTZWMjQyZ2dvNFFETWk.!2m2!1d40.6911804!2d-73.98315560000002!3f0!4f0!5f0.7820865974627469",
+				"https://www.google.com/maps/embed?pb=!4v1784921310401!6m8!1m7!1sCAoSHENJQUJJaERzTnhoOE9WTUt2MGtlcklwTjUwdlU.!2m2!1d40.69118599999999!2d-73.9831799!3f356.3486533986013!4f-2.420503886580917!5f0.7820865974627469"
+			],
+			"url": null,
+			"createdAt": "2026-07-24T12:00:00.000Z",
+			"hidden": true
+		},
+		{
+			"id": "amc-time-square",
+			"pinType": "confirmed",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/streetview/amc-time-sq-theater/amc-time-sq-theater_thm.jpg",
+			"lat": 40.756,
+			"lng": -73.9875,
+			"title": "Google 360° @AMC Times Square Theater",
+			"panoTickerMsg": "AMC Times Square",
+			"googleMapsEmbedPanoUrl": "https://www.google.com/maps/embed?pb=!4v1784874228365!6m8!1m7!1sCAoSHENJQUJJaENHdWxTQUlzRHJmWlRHZFFoX2NZbHg.!2m2!1d40.756737!2d-73.98900359999999!3f0.5825391979814043!4f3.0488012982258965!5f0.7820865974627469",
+			"url": null,
+			"createdAt": "2026-07-24T12:00:00.000Z",
+			"hidden": true
+		},
+		{
+			"id": "amc-lincoln-square",
+			"pinType": "confirmed",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/streetview/amc-lincoln-sq-theater/amc-lincoln-sq-theater_thm.jpg",
+			"lat": 40.7748,
+			"lng": -73.9819,
+			"title": "Google 360° @AMC Lincoln Square Theater",
+			"panoTickerMsg": "AMC Lincoln Square",
+			"googleMapsEmbedPanoUrl": [
+				"https://www.google.com/maps/embed?pb=!4v1784918808676!6m8!1m7!1sCAoSHENJQUJJaEFSX2lzSHhoV05MTHNBaXRNbmRNOEw.!2m2!1d40.7751676!2d-73.9819053!3f88.84855!4f0!5f0.7820865974627469",
+				"https://www.google.com/maps/embed?pb=!4v1785190126043!6m8!1m7!1sCAoSHENJQUJJaEJPODVRTjhSc2VpemM0Z2ZBR0V2dUE.!2m2!1d40.7751543!2d-73.98188929999999!3f3.646648325827594!4f-10.27799370660172!5f0.7820865974627469"
+			],
+			"url": null,
+			"createdAt": "2026-07-24T12:00:00.000Z",
+			"hidden": true
+		},
+		{
+			"id": "samsung-experience-store",
+			"pinType": "confirmed",
+			"cardThumbImg": "https://flash.sonypictures.com/movies/spidermanbrandnewday/images/streetview/samsung_store/samsung_store_thm.jpg",
+			"lat": 40.7399,
+			"lng": -74.0057,
+			"title": "Google 360° @Samsung Experience Store",
+			"panoTickerMsg": "Samsung Experience Store",
+			"googleMapsEmbedPanoUrl": [
+				"https://www.google.com/maps/embed?pb=!4v1785287200952!6m8!1m7!1sCAoSHENJQUJJaEMySmtLUGh0ZXAxVDZZRHdrek45bTQ.!2m2!1d40.7344988!2d-73.8698959!3f0!4f0!5f0.4000000000000002",
+				"https://www.google.com/maps/embed?pb=!4v1785287281322!6m8!1m7!1sCAoSHENJQUJJaEFfd2p2UUN0UU56aXBiSUpmemY5Smo.!2m2!1d40.7344966!2d-73.8698625!3f359.76827044479575!4f0.8533280829537517!5f0.4000000000000002"
+			],
+			"url": null,
+			"createdAt": "2026-07-24T12:00:00.000Z",
+			"hidden": true
+		}
+	],
+	"videoGallery": {
+		"videos": [
+			{
+				"title": "OFFICIAL TRAILER 3",
+				"src": "https://www.youtube.com/watch?v=P3uI5sLosKU",
+				"default": true
+			},
+			{
+				"title": "NED TALK 2",
+				"src": "https://www.youtube.com/watch?v=Yxz25mD3-9w&t=17s",
+				"default": true
+			},
+			{
+				"title": "OFFICIAL TRAILER 2",
+				"src": "https://www.youtube.com/watch?v=Q27BvUipKn8",
+				"default": true
+			},
+			{
+				"title": "NED TALK",
+				"src": "https://www.youtube.com/watch?v=0ceb-6OoJw8",
+				"default": true
+			},
+			{
+				"title": "OFFICIAL TRAILER 1",
+				"src": "https://www.youtube.com/watch?v=8TZMtslA3UY",
+				"default": true
+			}
+		]
+	},
+	"webwatch": {
+		"articles": [
+			{
+				"image": "./images/web_watch/scorpion.jpg",
+				"name": "SCORPION",
+				"desc": "Feels like there's history between Spidey and Scorpion, but I might be reading into it too much. He's got a lethal mechanical tail that you do not want to be stung by."
+			},
+			{
+				"image": "./images/web_watch/boomerang.jpg",
+				"name": "BOOMERANG",
+				"desc": "His name is easy to catch; his weapons are not. Boomerang fights by using (surprise, surprise) special boomerangs with different powers."
+			},
+			{
+				"image": "./images/web_watch/tarantula.jpg",
+				"name": "TARANTULA",
+				"desc": "Tarantula uses poison-tipped boots as a weapon, so watch those feet. Luckily, Spidey has great reflexes."
+			},
+			{
+				"image": "./images/web_watch/hand.jpg",
+				"name": "THE HAND",
+				"desc": "Can someone tell me what NINJAS are doing back in New York? The all-red outfits do go kinda hard but feels like it'd be hard to sneak around in."
+			},
+			{
+				"image": "./images/web_watch/punisher.jpg",
+				"name": "PUNISHER",
+				"desc": "Is he a friend of Spider-Man? They've been spotted together but it doesn't always look like they're working as one. Either way, I'd want to stay on his good side (if he has one)."
+			},
+			{
+				"image": "./images/web_watch/unknown.jpg",
+				"name": "UNKNOWN",
+				"desc": "There are rumors of a new mysterious villain in the city.  Send anything you hear about this, this one's hard to track."
+			}
+		]
+	},
+	"404page": {
+		"message": "Whoa, the Spidey sightings are in overload! Check back soon."
+	},
+	"soundTriggers": {
+		"preloaderOptIn": {
+			"category": "preloader",
+			"enabled": true
+		},
+		"notificationAlert": {
+			"category": "notification",
+			"enabled": true
+		},
+		"activityLog": {
+			"category": "activity",
+			"enabled": true
+		},
+		"webwatch": {
+			"category": "webwatch",
+			"enabled": true
+		},
+		"events": {
+			"category": "events",
+			"enabled": true
+		},
+		"xFeed": {
+			"category": "xFeed",
+			"enabled": true
+		},
+		"punisherSightings": {
+			"category": "punisher",
+			"enabled": true
+		},
+		"handSightings": {
+			"category": "hand",
+			"enabled": true
+		},
+		"generalSightings": {
+			"category": "general",
+			"enabled": true
+		}
+	},
+	"registeredSounds": {
+		"ned_bites": [
+			{
+				"name": "spidey_jingle",
+				"src": "./sounds/spidey_jingle.mp3",
+				"category": "notification"
+			},
+			{
+				"name": "welcome_to_the_Spidey_Tracker",
+				"src": "https://flash.sonypictures.com/movies/spidermanbrandnewday/sounds/ned_sound_bites/welcome_to_the_Spidey_Tracker.MP3",
+				"category": "preloader"
+			},
+			{
+				"name": "Spidey's_on_the_move_adding_some_hot_sightings_to_",
+				"src": "https://flash.sonypictures.com/movies/spidermanbrandnewday/sounds/ned_sound_bites/Spidey's_on_the_move_adding_some_hot_sightings_to_.MP3",
+				"category": ""
+			},
+			{
+				"name": "a_brand_new_day_brand_new_sightings",
+				"src": "https://flash.sonypictures.com/movies/spidermanbrandnewday/sounds/ned_sound_bites/a_brand_new_day_brand_new_sightings.MP3",
+				"category": "preloader, general"
+			},
+			{
+				"name": "another_day_another_sighting",
+				"src": "https://flash.sonypictures.com/movies/spidermanbrandnewday/sounds/ned_sound_bites/another_day_another_sighting.MP3",
+				"category": "preloader, activity, webwatch, xFeed, general"
+			},
+			{
+				"name": "are_Punisher_and_Spidey_teaming_up",
+				"src": "https://flash.sonypictures.com/movies/spidermanbrandnewday/sounds/ned_sound_bites/are_Punisher_and_Spidey_teaming_up.MP3",
+				"category": "webwatch, punisher"
+			},
+			{
+				"name": "are_those_ninjas_in_New_York_City",
+				"src": "https://flash.sonypictures.com/movies/spidermanbrandnewday/sounds/ned_sound_bites/are_those_ninjas_in_New_York_City.MP3",
+				"category": "webwatch, hand"
+			},
+			{
+				"name": "calling_all_webheads_we've_got_some_fresh_sighting",
+				"src": "https://flash.sonypictures.com/movies/spidermanbrandnewday/sounds/ned_sound_bites/calling_all_webheads_we've_got_some_fresh_sighting.MP3",
+				"category": "preloader, activity"
+			},
+			{
+				"name": "getting_some_Spidey_sightings_from_all_over_the_wo",
+				"src": "https://flash.sonypictures.com/movies/spidermanbrandnewday/sounds/ned_sound_bites/getting_some_Spidey_sightings_from_all_over_the_wo2.MP3",
+				"category": "preloader, activity, general"
+			},
+			{
+				"name": "got_some_new_info_on_the_mysterious_presence_check",
+				"src": "https://flash.sonypictures.com/movies/spidermanbrandnewday/sounds/ned_sound_bites/got_some_new_info_on_the_mysterious_presence_check.MP3",
+				"category": "webwatch"
+			},
+			{
+				"name": "keep_getting_reports_of_a_mysterious_presence_in_t",
+				"src": "https://flash.sonypictures.com/movies/spidermanbrandnewday/sounds/ned_sound_bites/keep_getting_reports_of_a_mysterious_presence_in_t.MP3",
+				"category": "webwatch"
+			},
+			{
+				"name": "keep_sending_in_those_sightings,_I've_got_everythi",
+				"src": "https://flash.sonypictures.com/movies/spidermanbrandnewday/sounds/ned_sound_bites/keep_sending_in_those_sightings,_I've_got_everythi.MP3",
+				"category": "xFeed, general"
+			},
+			{
+				"name": "my_watch_gave_me_a_quick_glance_alert_like_five_se",
+				"src": "https://flash.sonypictures.com/movies/spidermanbrandnewday/sounds/ned_sound_bites/my_watch_gave_me_a_quick_glance_alert_like_five_se.MP3",
+				"category": ""
+			},
+			{
+				"name": "new_sightings_just_came_in...adding_them_now",
+				"src": "https://flash.sonypictures.com/movies/spidermanbrandnewday/sounds/ned_sound_bites/new_sightings_just_came_in...adding_them_now.MP3",
+				"category": "activity, preloader"
+			},
+			{
+				"name": "our_first_meet_ups_have_been_posted_in_event_updat",
+				"src": "https://flash.sonypictures.com/movies/spidermanbrandnewday/sounds/ned_sound_bites/our_first_meet_ups_have_been_posted_in_event_updat.MP3",
+				"category": "events"
+			},
+			{
+				"name": "seeing_a_lot_of_Spidey_sightings_at_theaters_today",
+				"src": "https://flash.sonypictures.com/movies/spidermanbrandnewday/sounds/ned_sound_bites/seeing_a_lot_of_Spidey_sightings_at_theaters_today.MP3",
+				"category": ""
+			},
+			{
+				"name": "seeing_reports_of_people_hearing_a_voice_in_their_",
+				"src": "https://flash.sonypictures.com/movies/spidermanbrandnewday/sounds/ned_sound_bites/seeing_reports_of_people_hearing_a_voice_in_their_.MP3",
+				"category": "webwatch"
+			},
+			{
+				"name": "ton_of_new_sightings_came_in_overnight_check_out_t",
+				"src": "https://flash.sonypictures.com/movies/spidermanbrandnewday/sounds/ned_sound_bites/ton_of_new_sightings_came_in_overnight_check_out_t.MP3",
+				"category": "preloader"
+			}
+		]
+	}
+}
