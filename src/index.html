@@ -512,15 +512,6 @@ const siteInit = {"general":{"seo":{"title":"Spidey Tracker - Sony Pictures","de
     setTimeout(forceHide, 4000);
   }
 })();
-
-// Google Maps fallback: if Maps API is blocked (China), define initMaps stub
-// so the page doesn't hang waiting for the callback
-if (typeof window.initMaps !== 'function') {
-  window.initMaps = function() {
-    console.log('[Fallback] initMaps stub - Google Maps API unavailable');
-    document.dispatchEvent(new CustomEvent('app:maps-initialized'));
-  };
-}
 </script>
 </head> <body> <!-- Google Tag Manager (noscript) -->  <!-- End Google Tag Manager (noscript) --> <!--?php if (USE_CUSTOM_CONSENT_MODAL): ?--> <script>
         // Keep consent dialog styling in CSS (not JS object styles).
