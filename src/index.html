@@ -469,13 +469,30 @@ const siteInit = {"general":{"seo":{"title":"Spidey Tracker - Sony Pictures","de
   // Stub OneTrust so OptanonWrapper and consent checks don't throw
   window.OneTrust = window.OneTrust || {
     getGeolocationData: function(){ return {country:''}; },
-    getConsent: function(){ return true; }
+    getConsent: function(){ return true; },
+    GetDomainData: function(){ return {CookieConsent:{Categories:{},Groups:{},Vendors:[]},Groups:[],Vendors:[]}; },
+    GetConsentState: function(){ return {}; },
+    InsertScript: function(){},
+    SetConsentState: function(){},
+    TriggerGoogleConsentState: function(){},
+    ToggleInfoDisplay: function(){},
+    Close: function(){},
+    getVendorConsent: function(){ return true; },
+    getVendorGroupKey: function(){ return ''; },
+    _getVendorsGroupMapping: function(){ return {vendorGroups:{},vendorToGroup:{}}; }
   };
   window.OnetrustActiveGroups = window.OnetrustActiveGroups || 'C0001,C0002,C0003,C0004';
   window.OptanonActiveGroups = window.OptanonActiveGroups || 'C0001,C0002,C0003,C0004';
   // Stub consentHelper
   window.consentHelper = window.consentHelper || {
-    getConsent: function(){ return true; }
+    getConsent: function(){ return true; },
+    getConsentState: function(){ return {analytics:true, advertising:true, functional:true, necessary:true}; },
+    hasConsent: function(){ return true; },
+    hideConsentDialog: function(){ var o=document.getElementById('consent-dialog-overlay');var d=document.getElementById('consent-dialog'); if(o)o.remove(); if(d)d.remove(); },
+    showConsentDialog: function(){},
+    setConsent: function(){},
+    getVendorConsents: function(){ return {}; },
+    isConsentGiven: function(){ return true; }
   };
   // Hide any OneTrust cookie dialog if it appears
   var hideOT = setInterval(function(){
