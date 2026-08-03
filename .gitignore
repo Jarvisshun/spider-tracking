@@ -1,0 +1,11 @@
+# 忽略分析脚本和构建脚本
+analyze*.py
+download_assets.py
+build_index.py
+*.pyc
+__pycache__/
+
+# 忽略原始站点抓取的备份
+src/original_index.html
+src/siteInit.json
+src/siteInit_raw.txt
