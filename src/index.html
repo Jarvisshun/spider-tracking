@@ -503,30 +503,29 @@ const siteInit = {"general":{"seo":{"title":"Spidey Tracker - Sony Pictures","de
   }, 200);
   setTimeout(function(){ clearInterval(hideOT); }, 10000);
 })();
-// Preloader fallback: force-hide after 6 seconds if window.load never fires
+// Preloader fallback: force-hide if still visible after timeout
 (function(){
-  var hidden = false;
   function forceHide() {
-    if (hidden) return;
     var p = document.getElementById('preloader');
-    if (p && !p.classList.contains('preloader--hidden')) {
-      p.classList.add('preloader--hidden');
-      p.style.display = 'none';
-      document.dispatchEvent(new CustomEvent('app:preloader-hide'));
-      document.dispatchEvent(new CustomEvent('app:startup-video-complete'));
-      console.log('[Fallback] Preloader force-hidden after timeout');
-    }
-    hidden = true;
+    if (!p) return;
+    if (p.classList.contains('preloader--hidden')) return;
+    p.classList.add('preloader--hidden');
+    p.style.display = 'none';
+    p.style.visibility = 'hidden';
+    p.style.opacity = '0';
+    p.style.pointerEvents = 'none';
+    document.dispatchEvent(new CustomEvent('app:preloader-hide'));
+    document.dispatchEvent(new CustomEvent('app:startup-video-complete'));
+    console.log('[Fallback] Preloader force-hidden after timeout');
   }
-  // If window.load fires normally, cancel the fallback
-  window.addEventListener('load', function(){ hidden = true; });
-  // Fallback after 6 seconds
+  setTimeout(forceHide, 4000);
   setTimeout(forceHide, 6000);
-  // Also try on DOMContentLoaded as earlier fallback
+  setTimeout(forceHide, 10000);
+  window.addEventListener('load', function(){ setTimeout(forceHide, 2000); });
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function(){ setTimeout(forceHide, 4000); });
+    document.addEventListener('DOMContentLoaded', function(){ setTimeout(forceHide, 3000); });
   } else {
-    setTimeout(forceHide, 4000);
+    setTimeout(forceHide, 3000);
   }
 })();
 </script>
