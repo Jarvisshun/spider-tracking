@@ -1,3 +1,6 @@
+# System
+.opensquilla/
+
 # Test artifacts
 test_*.png
 test_*.json
