@@ -1,11 +1,22 @@
-# 忽略分析脚本和构建脚本
-analyze*.py
-download_assets.py
-build_index.py
+# Test artifacts
+test_*.png
+test_*.json
+test_screenshots/
+phase2_test.py
 *.pyc
 __pycache__/
 
-# 忽略原始站点抓取的备份
+# Server uploads (user-generated content)
+server/uploads/*
+!server/uploads/.gitkeep
+server/sightings.json
+
+# Analysis scripts
+analyze*.py
+download_assets.py
+build_index.py
+
+# Original site backups
 src/original_index.html
 src/siteInit.json
 src/siteInit_raw.txt
