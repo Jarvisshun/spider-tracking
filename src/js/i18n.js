@@ -138,30 +138,10 @@
   // 6. 更新 Google Maps API 语言参数
   // ============================================================
   function updateMapLanguage(lang) {
+    // Google Maps API has been replaced by Leaflet; tile language is set at
+    // init time. Keep the event for any downstream listeners but don't try
+    // to reload the (now-removed) Maps API script.
     var mapLang = (lang === 'zh-CN') ? 'zh-CN' : 'en';
-
-    // 找到 Maps JS API script 标签并替换 language 参数
-    var scripts = document.querySelectorAll('script[src*="maps.googleapis.com"]');
-    scripts.forEach(function (script) {
-      var src = script.getAttribute('src') || '';
-      var newSrc;
-      if (src.indexOf('language=') !== -1) {
-        newSrc = src.replace(/language=[^&]*/, 'language=' + mapLang);
-      } else {
-        newSrc = src + '&language=' + mapLang;
-      }
-      if (newSrc !== src) {
-        // 移除旧 script，创建新 script 重新加载地图
-        var newScript = document.createElement('script');
-        newScript.type = 'text/javascript';
-        // 保留回调名
-        newScript.src = newSrc;
-        newScript.async = true;
-        script.parentNode.replaceChild(newScript, script);
-      }
-    });
-
-    // 派发自定义事件，通知地图组件重新渲染
     document.dispatchEvent(new CustomEvent('i18n:language-changed', {
       detail: { lang: lang, mapLang: mapLang }
     }));
@@ -174,9 +154,30 @@
     document.documentElement.setAttribute('lang', lang === 'zh-CN' ? 'zh-CN' : 'en');
 
     if (translatedInit && translatedInit.general && translatedInit.general.seo) {
+      var seo = translatedInit.general.seo;
       var titleEl = document.querySelector('title[data-i18n]');
-      if (titleEl) {
-        titleEl.textContent = translatedInit.general.seo.title;
+      if (titleEl && seo.title) {
+        titleEl.textContent = seo.title;
+      }
+      // Update meta description
+      var descEl = document.querySelector('meta[name="description"]');
+      if (descEl && seo.description) {
+        descEl.setAttribute('content', seo.description);
+      }
+      // Update og:description
+      var ogDescEl = document.querySelector('meta[property="og:description"]');
+      if (ogDescEl && seo.ogDescription) {
+        ogDescEl.setAttribute('content', seo.ogDescription);
+      }
+      // Update twitter:description
+      var twDescEl = document.querySelector('meta[name="twitter:description"]');
+      if (twDescEl && seo.twitterDescription) {
+        twDescEl.setAttribute('content', seo.twitterDescription);
+      }
+      // Update keywords
+      var kwEl = document.querySelector('meta[name="keywords"]');
+      if (kwEl && seo.keywords) {
+        kwEl.setAttribute('content', seo.keywords);
       }
     }
   }
