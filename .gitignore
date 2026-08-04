@@ -3,6 +3,10 @@ test_*.png
 test_*.json
 test_screenshots/
 phase2_test.py
+phase4_test.py
+test_apis.py
+final_test.py
+final_test_report.json
 *.pyc
 __pycache__/
 
