@@ -109,6 +109,84 @@ def list_sightings():
 def health():
     return jsonify({'status': 'ok', 'sightings_count': len(load_sightings())})
 
+# ============================================================
+# Social Media Feed API
+# ============================================================
+import urllib.request, ssl
+
+# Mock YouTube data (real API would need GOOGLE_API_KEY)
+MOCK_YOUTUBE_VIDEOS = [
+    {"id": "0ceb-6OoJw8", "title": "A Message From Ned Leeds - Spider-Man: Brand New Day", "channel": "Sony Pictures", "thumbnail": "https://img.youtube.com/vi/0ceb-6OoJw8/hqdefault.jpg", "url": "https://www.youtube.com/watch?v=0ceb-6OoJw8", "views": "1.2M", "date": "2026-06-15"},
+    {"id": "P3uI5sLosKU", "title": "Spider-Man: Brand New Day - Official Trailer", "channel": "Sony Pictures", "thumbnail": "https://img.youtube.com/vi/P3uI5sLosKU/hqdefault.jpg", "url": "https://www.youtube.com/watch?v=P3uI5sLosKU", "views": "8.5M", "date": "2026-05-20"},
+    {"id": "dQw4w9WgXcQ", "title": "Spider-Man: Brand New Day - Behind the Scenes", "channel": "Marvel Entertainment", "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg", "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ", "views": "3.1M", "date": "2026-04-10"},
+    {"id": "jNQXAC9IVRw", "title": "Spider-Man Swings Into NYC - Fan Reactions", "channel": "SpiderFan Channel", "thumbnail": "https://img.youtube.com/vi/jNQXAC9IVRw/hqdefault.jpg", "url": "https://www.youtube.com/watch?v=jNQXAC9IVRw", "views": "450K", "date": "2026-06-01"},
+    {"id": "kJQP7kiw5Fk", "title": "Spider-Man: Brand New Day - All Easter Eggs", "channel": "Screen Rant", "thumbnail": "https://img.youtube.com/vi/kJQP7kiw5Fk/hqdefault.jpg", "url": "https://www.youtube.com/watch?v=kJQP7kiw5Fk", "views": "2.3M", "date": "2026-05-25"},
+]
+
+# Mock X/Twitter feed
+MOCK_TWEETS = [
+    {"id": "t1", "author": "@SpiderManMovie", "handle": "Spider-Man: Brand New Day", "avatar": "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png", "text": "The web-slinger is back! 🕸️ Brand New Day hits theaters July 2026. Are you ready? #SpiderMan #BrandNewDay", "likes": "12.4K", "retweets": "3.2K", "date": "2026-06-20"},
+    {"id": "t2", "author": "@TomHolland1996", "handle": "Tom Holland", "avatar": "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png", "text": "Can't wait for you all to see what we've been working on. This one is special. 🕷️❤️", "likes": "245K", "retweets": "89K", "date": "2026-06-18"},
+    {"id": "t3", "author": "@Marvel", "handle": "Marvel Entertainment", "avatar": "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png", "text": "Spider-Man: Brand New Day — swinging into a new era. Watch the official trailer now! 🏙️", "likes": "56K", "retweets": "18K", "date": "2026-06-15"},
+    {"id": "t4", "author": "@spideytracker", "handle": "Spidey Tracker", "avatar": "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png", "text": "NYC sighting confirmed! Spider-Man spotted at Washington Square Park at 3:42 PM. Keep your eyes on the sky 👀🕸️", "likes": "8.7K", "retweets": "2.1K", "date": "2026-06-22"},
+    {"id": "t5", "author": "@SonyPictures", "handle": "Sony Pictures", "avatar": "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png", "text": "Every hero has a new beginning. Spider-Man: Brand New Day — only in theaters July 2026.", "likes": "32K", "retweets": "11K", "date": "2026-06-10"},
+]
+
+@app.route('/api/social/youtube', methods=['GET'])
+def social_youtube():
+    """Return Spider-Man related YouTube videos (mock data)."""
+    return jsonify({"videos": MOCK_YOUTUBE_VIDEOS, "source": "youtube", "count": len(MOCK_YOUTUBE_VIDEOS)})
+
+@app.route('/api/social/reddit', methods=['GET'])
+def social_reddit():
+    """Fetch r/spiderman hot posts via Reddit public JSON API."""
+    try:
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+        req = urllib.request.Request(
+            'https://www.reddit.com/r/spiderman/hot.json?limit=10',
+            headers={'User-Agent': 'SpideyTracker/1.0'}
+        )
+        resp = urllib.request.urlopen(req, timeout=10, context=ctx)
+        data = json.loads(resp.read().decode('utf-8'))
+        posts = []
+        for child in data.get('data', {}).get('children', []):
+            d = child['data']
+            posts.append({
+                'id': d['id'],
+                'title': d['title'],
+                'author': d['author'],
+                'subreddit': d['subreddit'],
+                'url': f"https://www.reddit.com{d['permalink']}",
+                'score': d['score'],
+                'num_comments': d['num_comments'],
+                'thumbnail': d.get('thumbnail', '') if d.get('thumbnail', '').startswith('http') else None,
+                'created_utc': d['created_utc'],
+                'is_spoiler': d.get('spoiler', False),
+            })
+        return jsonify({"posts": posts, "source": "reddit", "count": len(posts)})
+    except Exception as e:
+        return jsonify({"posts": [], "source": "reddit", "count": 0, "error": str(e)})
+
+@app.route('/api/social/x', methods=['GET'])
+def social_x():
+    """Return Spider-Man related X/Twitter posts (mock data)."""
+    return jsonify({"tweets": MOCK_TWEETS, "source": "x", "count": len(MOCK_TWEETS)})
+
+@app.route('/api/social/all', methods=['GET'])
+def social_all():
+    """Aggregate all social media feeds."""
+    yt = social_youtube().get_json()
+    rd = social_reddit().get_json()
+    tw = social_x().get_json()
+    return jsonify({
+        "youtube": yt,
+        "reddit": rd,
+        "x": tw,
+        "total": yt.get('count', 0) + rd.get('count', 0) + tw.get('count', 0),
+    })
+
 if __name__ == '__main__':
     print('🕷️  Spidey Tracker UGC Backend starting on http://127.0.0.1:5000')
     app.run(host='127.0.0.1', port=5000, debug=True)
