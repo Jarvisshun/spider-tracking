@@ -45,6 +45,9 @@
         background: rgba(0,0,0,0.3);
       }
       #social-feed-header h3 { margin: 0; font-size: 14px; color: #96e0f7; text-transform: uppercase; }
+      #social-feed-refresh { background: none; border: 1px solid rgba(150,224,247,0.4); color: #96e0f7; font-size: 12px; cursor: pointer; padding: 2px 8px; border-radius: 4px; transition: all 0.2s; }
+      #social-feed-refresh:hover { background: rgba(150,224,247,0.15); }
+      #social-feed-refresh:disabled { opacity: 0.4; cursor: wait; }
       #social-feed-close { background: none; border: none; color: #96e0f7; font-size: 18px; cursor: pointer; }
       #social-feed-tabs {
         display: flex; border-bottom: 1px solid rgba(150,224,247,0.15);
@@ -108,7 +111,10 @@
     panel.innerHTML = `
       <div id="social-feed-header">
         <h3>🕸️ 社交媒体动态</h3>
-        <button id="social-feed-close">✕</button>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button id="social-feed-refresh" title="刷新">🔄</button>
+          <button id="social-feed-close">✕</button>
+        </div>
       </div>
       <div id="social-feed-tabs">
         <button class="social-tab active" data-tab="youtube">▶ YouTube</button>
@@ -126,6 +132,18 @@
       panel.classList.remove('visible');
     });
 
+    const refreshBtn = document.getElementById('social-feed-refresh');
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', async () => {
+        refreshBtn.disabled = true;
+        refreshBtn.textContent = '...';
+        cachedData = null;
+        await renderFeed(true);
+        refreshBtn.disabled = false;
+        refreshBtn.textContent = '🔄';
+      });
+    }
+
     panel.querySelectorAll('.social-tab').forEach(tab => {
       tab.addEventListener('click', () => {
         currentTab = tab.dataset.tab;
@@ -139,10 +157,11 @@
   // ============================================================
   // 4. Fetch data
   // ============================================================
-  async function fetchFeed() {
-    if (cachedData) return cachedData;
+  async function fetchFeed(forceRefresh) {
+    if (cachedData && !forceRefresh) return cachedData;
     try {
-      const resp = await fetch(`${API_BASE}/all`);
+      const url = forceRefresh ? `${API_BASE}/all?refresh=true` : `${API_BASE}/all`;
+      const resp = await fetch(url);
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
       cachedData = await resp.json();
       return cachedData;
@@ -155,12 +174,12 @@
   // ============================================================
   // 5. Render feed
   // ============================================================
-  async function renderFeed() {
+  async function renderFeed(forceRefresh) {
     const content = document.getElementById('social-feed-content');
     if (!content) return;
     content.innerHTML = '<div class="social-loading">加载中...</div>';
 
-    const data = await fetchFeed();
+    const data = await fetchFeed(forceRefresh);
     if (!data) {
       content.innerHTML = '<div class="social-loading">⚠️ 无法加载社交媒体数据，请确保后端服务已启动</div>';
       return;
@@ -184,19 +203,24 @@
       `).join('') || '<div class="social-loading">暂无 YouTube 视频</div>';
     } else if (currentTab === 'reddit') {
       const posts = data.reddit?.posts || [];
-      if (data.reddit?.error) {
+      const isLive = data.reddit?.live;
+      const liveBadge = isLive ? '<span style="color:#00ff50;font-size:10px">● 实时</span>' : '<span style="color:#888;font-size:10px">○ 存档</span>';
+      if (data.reddit?.error && !posts.length) {
         html = `<div class="social-loading">⚠️ Reddit 数据获取失败: ${data.reddit.error}</div>`;
       } else {
-        html = posts.map(p => `
+        html = '<div style="text-align:center;margin-bottom:8px">' + liveBadge + ` 共 ${posts.length} 条帖子</div>`;
+        html += posts.map(p => `
           <div class="social-post">
             <a href="${p.url}" target="_blank" rel="noopener">
               ${p.thumbnail ? `<img class="social-post-thumb" src="${p.thumbnail}" alt="" loading="lazy">` : ''}
-              <div class="social-post-author">r/${p.subreddit} · u/${p.author}</div>
+              <div class="social-post-author">r/${p.subreddit} · ${p.author}</div>
               <div class="social-post-text">${p.title}${p.is_spoiler ? ' <span style="color:#ff4040">[剧透]</span>' : ''}</div>
+              ${p.preview ? `<div class="social-post-text" style="font-size:11px;color:#8899aa;margin-top:4px">${p.preview.substring(0,100)}...</div>` : ''}
             </a>
             <div class="social-post-meta">
-              <span>⬆ ${p.score}</span>
-              <span>💬 ${p.num_comments}</span>
+              ${p.score ? `<span>⬆ ${p.score}</span>` : ''}
+              ${p.num_comments ? `<span>💬 ${p.num_comments}</span>` : ''}
+              <a href="${p.url}" target="_blank" style="font-size:10px;color:#96e0f7">查看原帖 ↗</a>
             </div>
           </div>
         `).join('') || '<div class="social-loading">暂无 Reddit 帖子</div>';
