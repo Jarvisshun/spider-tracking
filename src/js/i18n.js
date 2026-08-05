@@ -237,7 +237,7 @@
     style.textContent = [
       '.lang-toggle-btn {',
       '  position: fixed;',
-      '  top: 50px;',
+      '  top: 80px;',
       '  left: 12px;',
       '  z-index: 99999;',
       '  background: rgba(0, 0, 0, 0.75);',
@@ -265,7 +265,7 @@
       '}',
       '@media (max-width: 640px) {',
       '  .lang-toggle-btn {',
-      '    top: 42px;',
+      '    top: 72px;',
       '    left: 8px;',
       '    font-size: 11px;',
       '    padding: 4px 10px;',

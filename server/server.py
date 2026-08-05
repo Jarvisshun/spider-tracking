@@ -138,11 +138,11 @@ def social_youtube():
     return jsonify({"videos": MOCK_YOUTUBE_VIDEOS, "source": "youtube", "count": len(MOCK_YOUTUBE_VIDEOS)})
 
 MOCK_REDDIT_POSTS = [
-    {"id": "r1", "title": "Spotted Spider-Man swinging through Brooklyn Heights!", "author": "u/webslinger_fan", "subreddit": "spiderman", "url": "https://www.reddit.com/r/spiderman/comments/mock1", "score": 2847, "num_comments": 156, "thumbnail": None, "created_utc": 1754400000, "is_spoiler": False},
-    {"id": "r2", "title": "Spider-Man: Brand New Day trailer breakdown — all Easter eggs", "author": "u/marvel_detective", "subreddit": "spiderman", "url": "https://www.reddit.com/r/spiderman/comments/mock2", "score": 5120, "num_comments": 423, "thumbnail": None, "created_utc": 1754380000, "is_spoiler": False},
-    {"id": "r3", "title": "Peter Parker's apartment building in real life (20 Clinton St)", "author": "u/nyc_explorer", "subreddit": "spiderman", "url": "https://www.reddit.com/r/spiderman/comments/mock3", "score": 1893, "num_comments": 87, "thumbnail": None, "created_utc": 1754350000, "is_spoiler": False},
-    {"id": "r4", "title": "Cosplayed as Spider-Man at Times Square, got mobbed by tourists", "author": "u/friendly_neighborhood", "subreddit": "spiderman", "url": "https://www.reddit.com/r/spiderman/comments/mock4", "score": 3456, "num_comments": 201, "thumbnail": None, "created_utc": 1754320000, "is_spoiler": False},
-    {"id": "r5", "title": "Official Spidey Tracker website just launched — check it out!", "author": "u/sonypictures", "subreddit": "spiderman", "url": "https://www.reddit.com/r/spiderman/comments/mock5", "score": 8901, "num_comments": 567, "thumbnail": None, "created_utc": 1754300000, "is_spoiler": False},
+    {"id": "r1", "title": "Spotted Spider-Man swinging through Brooklyn Heights!", "author": "u/webslinger_fan", "subreddit": "spiderman", "url": "https://www.reddit.com/r/spiderman/", "score": 2847, "num_comments": 156, "thumbnail": None, "created_utc": 1754400000, "is_spoiler": False},
+    {"id": "r2", "title": "Spider-Man: Brand New Day trailer breakdown — all Easter eggs", "author": "u/marvel_detective", "subreddit": "spiderman", "url": "https://www.reddit.com/r/spiderman/", "score": 5120, "num_comments": 423, "thumbnail": None, "created_utc": 1754380000, "is_spoiler": False},
+    {"id": "r3", "title": "Peter Parker's apartment building in real life (20 Clinton St)", "author": "u/nyc_explorer", "subreddit": "spiderman", "url": "https://www.reddit.com/r/spiderman/", "score": 1893, "num_comments": 87, "thumbnail": None, "created_utc": 1754350000, "is_spoiler": False},
+    {"id": "r4", "title": "Cosplayed as Spider-Man at Times Square, got mobbed by tourists", "author": "u/friendly_neighborhood", "subreddit": "spiderman", "url": "https://www.reddit.com/r/spiderman/", "score": 3456, "num_comments": 201, "thumbnail": None, "created_utc": 1754320000, "is_spoiler": False},
+    {"id": "r5", "title": "Official Spidey Tracker website just launched — check it out!", "author": "u/sonypictures", "subreddit": "spiderman", "url": "https://www.reddit.com/r/spiderman/", "score": 8901, "num_comments": 567, "thumbnail": None, "created_utc": 1754300000, "is_spoiler": False},
 ]
 
 @app.route('/api/social/reddit', methods=['GET'])
