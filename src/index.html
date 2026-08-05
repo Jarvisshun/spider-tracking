@@ -494,14 +494,33 @@ const siteInit = {"general":{"seo":{"title":"Spidey Tracker - Sony Pictures","de
     getVendorConsents: function(){ return {}; },
     isConsentGiven: function(){ return true; }
   };
-  // Hide any OneTrust cookie dialog if it appears
+  // Hide any OneTrust cookie dialog + consent overlay, force-override consentHelper
   var hideOT = setInterval(function(){
     var ot = document.getElementById('onetrust-banner-sdk') || document.getElementById('onetrust-consent-sdk');
     if (ot) { ot.style.display='none'; ot.style.visibility='hidden'; }
     var otContainer = document.getElementById('onetrust-consent-sdk');
     if (otContainer) { otContainer.style.display='none'; }
+    // Remove consent dialog overlay that blocks all clicks
+    var cdOverlay = document.getElementById('consent-dialog-overlay');
+    if (cdOverlay) { cdOverlay.remove(); }
+    var cdDialog = document.getElementById('consent-dialog');
+    if (cdDialog) { cdDialog.style.display='none'; }
+    // Force-override consentHelper after consent-api-min-v2.js loads
+    // (consent-api replaces our stub with OneTrust-backed impl that lacks consent)
+    if (window.consentHelper) {
+      window.consentHelper.getConsent = function(){ return true; };
+      window.consentHelper.hasConsent = function(){ return true; };
+      window.consentHelper.getConsentState = function(){ return {analytics:true, advertising:true, functional:true, necessary:true}; };
+      window.consentHelper.getVendorConsent = function(){ return true; };
+      window.consentHelper.isConsentGiven = function(){ return true; };
+      window.consentHelper.hideConsentDialog = function(){ var o=document.getElementById('consent-dialog-overlay');var d=document.getElementById('consent-dialog'); if(o)o.remove(); if(d)d.remove(); };
+    }
+    if (window.__consentCache) {
+      window.__consentCache.hasYouTubeConsent = true;
+      window.__consentCache.hasFunctionalConsent = true;
+    }
   }, 200);
-  setTimeout(function(){ clearInterval(hideOT); }, 10000);
+  setTimeout(function(){ clearInterval(hideOT); }, 30000);
 })();
 // Preloader fallback: force-hide if still visible after timeout
 (function(){
