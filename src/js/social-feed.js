@@ -188,7 +188,10 @@
     let html = '';
     if (currentTab === 'youtube') {
       const videos = data.youtube?.videos || [];
-      html = videos.map(v => `
+      const isLive = data.youtube?.live;
+      const liveBadge = isLive ? '<span style="color:#00ff50;font-size:10px">● 实时</span>' : '<span style="color:#888;font-size:10px">○ 存档</span>';
+      html = '<div style="text-align:center;margin-bottom:8px">' + liveBadge + ` 共 ${videos.length} 条视频</div>`;
+      html += videos.map(v => `
         <div class="social-post">
           <a href="${v.url}" target="_blank" rel="noopener">
             ${v.thumbnail ? `<img class="social-post-thumb" src="${v.thumbnail}" alt="${v.title}" loading="lazy">` : ''}
@@ -227,7 +230,9 @@
       }
     } else if (currentTab === 'x') {
       const tweets = data.x?.tweets || [];
-      html = tweets.map(t => `
+      const poolSize = data.x?.total_pool || 20;
+      html = '<div style="text-align:center;margin-bottom:8px"><span style="color:#1da1f2;font-size:10px">🔀 随机抽取</span> 共 ' + tweets.length + ' 条推文 (内容池 ' + poolSize + ' 条)</div>';
+      html += tweets.map(t => `
         <div class="social-post">
           <div class="social-post-author">${t.author} <span style="color:#667788">${t.handle}</span></div>
           <div class="social-post-text">${t.text}</div>

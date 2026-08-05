@@ -1,5 +1,5 @@
 # UGC Backend Server — Spider-Man Sighting Upload API
-import os, json, uuid, hashlib, time, re
+import os, json, uuid, hashlib, time, re, random
 import urllib.request, ssl
 import xml.etree.ElementTree as ET
 from datetime import datetime
@@ -139,6 +139,16 @@ MOCK_TWEETS = [
     {"id": "t8", "author": "@ComicBookHQ", "handle": "Comic Book HQ", "text": "BREAKING: Spider-Man: Brand New Day teaser poster leaked! Check it out on our site.", "likes": "15K", "retweets": "6.7K", "date": "2026-06-08"},
     {"id": "t9", "author": "@zendaya", "handle": "Zendaya", "text": "Back on set with my favorite web-slinger. 2026 is going to be amazing.", "likes": "512K", "retweets": "102K", "date": "2026-05-30"},
     {"id": "t10", "author": "@RedditSpider", "handle": "r/Spiderman", "text": "Hot on r/Spiderman: 'Spider-Man Brand New Day fanart by @jorge.tinoco' - the community is loving this one!", "likes": "3.2K", "retweets": "890", "date": "2026-06-28"},
+    {"id": "t11", "author": "@PhaseZero", "handle": "Phase Zero Podcast", "text": "Spider-Man: Brand New Day set photos reveal a destroyed NYC skyline. What does this mean for Peter Parker's future? Full breakdown on our podcast.", "likes": "4.1K", "retweets": "1.2K", "date": "2026-07-15"},
+    {"id": "t12", "author": "@EmpireMagazine", "handle": "Empire Magazine", "text": "EXCLUSIVE: First look at Spider-Man's new suit in Brand New Day. The web pattern has been completely redesigned. Pick up the new issue for the full reveal.", "likes": "67K", "retweets": "21K", "date": "2026-07-10"},
+    {"id": "t13", "author": "@TomHolland1996", "handle": "Tom Holland", "text": "Wrap day on Spider-Man 4. I cannot thank this crew enough. This one is for you, the fans. Brand New Day is coming. 🕷️🕸️", "likes": "890K", "retweets": "156K", "date": "2026-07-20"},
+    {"id": "t14", "author": "@Collider", "handle": "Collider", "text": "SPIDER-MAN: BRAND NEW DAY will reportedly feature the most ambitious action sequence in MCU history. Sources say the third act chase took 3 months to film.", "likes": "18K", "retweets": "7.3K", "date": "2026-07-05"},
+    {"id": "t15", "author": "@IGN", "handle": "IGN", "text": "Spider-Man: Brand New Day — everything we know so far: new villains, new suit, new director. The full breakdown: [THREAD] 🧵", "likes": "34K", "retweets": "12K", "date": "2026-06-30"},
+    {"id": "t16", "author": "@spideytracker", "handle": "Spidey Tracker", "text": "BREAKING: Confirmed sighting at Tokyo Tower! Spider-Man spotted during the global press tour. Photo evidence now live on the tracker. 🗼🕷️", "likes": "12K", "retweets": "4.5K", "date": "2026-07-22"},
+    {"id": "t17", "author": "@KevinFeige", "handle": "Kevin Feige", "text": "I can confidently say Spider-Man: Brand New Day is something we've never attempted before in the MCU. Peter Parker's journey takes a turn no one expects.", "likes": "145K", "retweets": "38K", "date": "2026-07-18"},
+    {"id": "t18", "author": "@NYC_Spidey", "handle": "NYC Spidey Watch", "text": "RUMOR: Spider-Man filming spotted near the Queensboro Bridge last night. Multiple extras in superhero costumes seen. Brand New Day wrapping up production!", "likes": "6.8K", "retweets": "2.9K", "date": "2026-07-19"},
+    {"id": "t19", "author": "@ComicBookHQ", "handle": "Comic Book HQ", "text": "The new Spider-Man: Brand New Day poster just dropped and it is STUNNING. The color palette shifts to warm tones — a new era for Peter Parker.", "likes": "22K", "retweets": "9.1K", "date": "2026-07-08"},
+    {"id": "t20", "author": "@SpiderManMovie", "handle": "Spider-Man: Brand New Day", "text": "He's not just swinging. He's falling. And that's when Spider-Man is most dangerous. Brand New Day — only in theaters. 🕸️", "likes": "89K", "retweets": "34K", "date": "2026-07-21"},
 ]
 
 MOCK_REDDIT_POSTS = [
@@ -153,6 +163,74 @@ MOCK_REDDIT_POSTS = [
     {"id": "r9", "title": "Spider-Man and Invincible - This Goes Hard", "author": "u/Turbulent_Dig_2487", "subreddit": "spiderman", "url": "https://www.reddit.com/r/Spiderman/", "score": 5612, "num_comments": 289, "thumbnail": None, "created_utc": 1754220000, "is_spoiler": False},
     {"id": "r10", "title": "We Have Heard You on Anti-Bot Provisions", "author": "u/Lox22", "subreddit": "spiderman", "url": "https://www.reddit.com/r/Spiderman/", "score": 1203, "num_comments": 445, "thumbnail": None, "created_utc": 1754200000, "is_spoiler": False},
 ]
+
+def _fetch_youtube_rss(limit=10):
+    """Fetch real Spider-Man related videos from Sony Pictures + Marvel YouTube RSS."""
+    channels = [
+        ('Sony Pictures', 'https://www.youtube.com/feeds/videos.xml?user=SonyPictures'),
+        ('Marvel Entertainment', 'https://www.youtube.com/feeds/videos.xml?user=Marvel'),
+    ]
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+    ns = {'a': 'http://www.w3.org/2005/Atom',
+          'yt': 'http://www.youtube.com/xml/schemas/2015',
+          'media': 'http://search.yahoo.com/mrss/'}
+    keywords = ['spider-man', 'spiderman', 'spidey', 'peter parker', 'tom holland',
+                'brand new day', 'web-slinger', 'venom', 'marvel', 'mcu', 'avengers']
+    all_videos = []
+    for channel_name, url in channels:
+        try:
+            req = urllib.request.Request(url, headers={
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            })
+            resp = urllib.request.urlopen(req, timeout=10, context=ctx)
+            root = ET.fromstring(resp.read().decode('utf-8'))
+            for e in root.findall('a:entry', ns):
+                title_el = e.find('a:title', ns)
+                title = title_el.text if title_el is not None else ''
+                vid_id_el = e.find('yt:videoId', ns)
+                vid_id = vid_id_el.text if vid_id_el is not None else ''
+                if not vid_id:
+                    continue
+                link_el = e.find('a:link', ns)
+                link = link_el.get('href', '') if link_el is not None else ''
+                pub_el = e.find('a:published', ns)
+                pub = pub_el.text[:10] if pub_el is not None and pub_el.text else ''
+                thumb = ''
+                views = '0'
+                mg = e.find('media:group', ns)
+                if mg is not None:
+                    th = mg.find('media:thumbnail', ns)
+                    if th is not None:
+                        thumb = th.get('url', '')
+                    comm = mg.find('media:community', ns)
+                    if comm is not None:
+                        st = comm.find('media:statistics', ns)
+                        if st is not None:
+                            v = int(st.get('views', '0'))
+                            if v >= 1000000:
+                                views = f'{v/1000000:.1f}M'
+                            elif v >= 1000:
+                                views = f'{v/1000:.1f}K'
+                            else:
+                                views = str(v)
+                all_videos.append({
+                    'id': vid_id,
+                    'title': title,
+                    'channel': channel_name,
+                    'thumbnail': thumb or f'https://img.youtube.com/vi/{vid_id}/hqdefault.jpg',
+                    'url': link or f'https://www.youtube.com/watch?v={vid_id}',
+                    'views': views,
+                    'date': pub,
+                })
+        except Exception as ex:
+            print(f'[YouTube RSS] {channel_name} fetch failed: {ex}')
+    if all_videos:
+        all_videos.sort(key=lambda x: x.get('date', ''), reverse=True)
+        return all_videos[:limit]
+    return None
+
 
 def _fetch_reddit_rss(limit=10):
     """Fetch real r/Spiderman posts via RSS feed. Returns list of dicts or None."""
@@ -228,8 +306,14 @@ def _get_cached(key, fetcher, force=False):
 def social_youtube():
     force = request.args.get('refresh', '').lower() == 'true'
     def fetch():
-        return {"videos": MOCK_YOUTUBE_VIDEOS, "source": "youtube", "count": len(MOCK_YOUTUBE_VIDEOS)}
-    return jsonify(_get_cached('youtube', fetch, force))
+        real = _fetch_youtube_rss(10)
+        if real:
+            return {"videos": real, "source": "youtube", "count": len(real), "live": True}
+        return {"videos": MOCK_YOUTUBE_VIDEOS, "source": "youtube", "count": len(MOCK_YOUTUBE_VIDEOS), "live": False}
+    result = _get_cached('youtube', fetch, force)
+    if result is None:
+        result = {"videos": MOCK_YOUTUBE_VIDEOS, "source": "youtube", "count": len(MOCK_YOUTUBE_VIDEOS), "live": False}
+    return jsonify(result)
 
 @app.route('/api/social/reddit', methods=['GET'])
 def social_reddit():
@@ -248,20 +332,31 @@ def social_reddit():
 def social_x():
     force = request.args.get('refresh', '').lower() == 'true'
     def fetch():
-        return {"tweets": MOCK_TWEETS, "source": "x", "count": len(MOCK_TWEETS)}
+        pool = MOCK_TWEETS.copy()
+        random.shuffle(pool)
+        return {"tweets": pool[:10], "source": "x", "count": 10, "total_pool": len(MOCK_TWEETS)}
     return jsonify(_get_cached('x', fetch, force))
 
 @app.route('/api/social/all', methods=['GET'])
 def social_all():
     force = request.args.get('refresh', '').lower() == 'true'
-    yt = _get_cached('youtube', lambda: {"videos": MOCK_YOUTUBE_VIDEOS, "source": "youtube", "count": len(MOCK_YOUTUBE_VIDEOS)}, force)
+    def _yt_fetch():
+        v = _fetch_youtube_rss(10)
+        if v:
+            return {"videos": v, "source": "youtube", "count": len(v), "live": True}
+        return {"videos": MOCK_YOUTUBE_VIDEOS, "source": "youtube", "count": len(MOCK_YOUTUBE_VIDEOS), "live": False}
+    yt = _get_cached('youtube', _yt_fetch, force)
     def _reddit_fetch():
         p = _fetch_reddit_rss(10)
         if p:
             return {"posts": p, "source": "reddit", "count": len(p), "live": True}
         return {"posts": MOCK_REDDIT_POSTS, "source": "reddit", "count": len(MOCK_REDDIT_POSTS), "live": False}
     rd = _get_cached('reddit', _reddit_fetch, force)
-    tw = _get_cached('x', lambda: {"tweets": MOCK_TWEETS, "source": "x", "count": len(MOCK_TWEETS)}, force)
+    def _x_fetch():
+        pool = MOCK_TWEETS.copy()
+        random.shuffle(pool)
+        return {"tweets": pool[:10], "source": "x", "count": 10, "total_pool": len(MOCK_TWEETS)}
+    tw = _get_cached('x', _x_fetch, force)
     return jsonify({
         "youtube": yt,
         "reddit": rd,
