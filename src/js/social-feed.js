@@ -19,7 +19,7 @@
     style.id = 'social-feed-styles';
     style.textContent = `
       #social-feed-btn {
-        position: fixed; bottom: 20px; right: 80px; z-index: 99998;
+        position: fixed; bottom: 140px; right: 24px; z-index: 99998;
         width: 48px; height: 48px; border-radius: 50%;
         background: linear-gradient(135deg, #1da1f2, #ff4500, #ff0000);
         border: 2px solid rgba(255,255,255,0.4); color: #fff;
@@ -29,7 +29,7 @@
       }
       #social-feed-btn:hover { transform: scale(1.1); }
       #social-feed-panel {
-        position: fixed; bottom: 80px; right: 20px; z-index: 99997;
+        position: fixed; bottom: 200px; right: 20px; z-index: 99997;
         width: 420px; max-width: 95vw; max-height: 70vh;
         background: rgba(10, 20, 40, 0.95); color: #c8d6e5;
         border: 2px solid rgba(150, 224, 247, 0.3);
@@ -79,7 +79,7 @@
       .social-loading { text-align: center; padding: 20px; color: #667788; font-size: 12px; }
       @media (max-width: 480px) {
         #social-feed-panel { width: 95vw; right: 2.5vw; }
-        #social-feed-btn { right: 70px; bottom: 16px; width: 40px; height: 40px; font-size: 16px; }
+        #social-feed-btn { right: 16px; bottom: 120px; width: 40px; height: 40px; font-size: 16px; }
       }
     `;
     document.head.appendChild(style);
