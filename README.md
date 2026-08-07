@@ -1,66 +1,173 @@
-# 🦐 Spider-Man Tracker 中文翻译版
+# 🕷️ Spidey Tracker — Spider-Man Interactive Map
 
-基于 [spideytracker.net](https://spideytracker.net/)（Sony Pictures × Samsung 联合推出的 *Spider-Man: Brand New Day* 营销站点）的中文翻译版本。
+> **蜘蛛侠追踪器** — 基于 Sony Pictures 官方蜘蛛侠互动地图的本地化增强版本
 
-## ✨ 功能
+[![GitHub last commit](https://img.shields.io/github/last-commit/Jarvisshun/spider-tracking)](https://github.com/Jarvisshun/spider-tracking)
+[![License](https://img.shields.io/badge/license-Educational-blue)](./LICENSE)
 
-- **中英双语切换**：右上角语言切换按钮，一键翻译全部 UI 文字、地图地名
-- **保留原版 UI**：不修改原站任何视觉设计，仅添加翻译层
-- **视频保留原样**：YouTube 视频（Ned 消息 + 预告片）照搬原站，可正常播放
-- **地图中文**：Google Maps API `language=zh-CN` 参数自动本地化地名
+An enhanced local clone of the official **Spidey Tracker** interactive map from Sony Pictures' *Spider-Man: Brand New Day* campaign. The original site allows fans to explore Spider-Man sightings worldwide. This version adds:
 
-## 🚀 本地运行
+- 🈚 **Full Chinese/English i18n** (130+ localized terms)
+- 📤 **User-generated sighting uploads** with content moderation
+- 🌐 **Social media feed aggregation** (YouTube, Reddit, X/Twitter)
+- 🎬 **Trailer playback** in a custom lightbox
+- 🗺️ **Leaflet + OpenStreetMap** (replaces Google Maps, no API key required)
 
+---
+
+## 📸 Screenshots
+
+| Map View | Social Feed | Upload Modal |
+|----------|-------------|--------------|
+| *(add screenshot)* | *(add screenshot)* | *(add screenshot)* |
+
+---
+
+## ✨ Features
+
+### Map & Navigation
+- 🗺️ Interactive world map with Spider-Man sighting pins
+- 🔴 **Confirmed Sightings** / 🟢 **Rumored Sightings** / 🟡 **Events**
+- 🧭 Map navigation controls (pan, zoom, rotate)
+- 📍 Activity log with chronological sighting feed
+- 🔊 Ambient audio toggles
+
+### i18n (Internationalization)
+- 🇺🇸 English / 🇨🇳 Chinese language toggle button
+- 130+ translated terms covering all UI elements
+- Dynamic SEO meta tag switching (`title`, `description`, `og:*`, `twitter:*`)
+- Leaflet tile language parameter (`?lang=zh-CN`)
+
+### UGC Upload System
+- 📸 Upload Spider-Man sighting photos/videos
+- 📍 GPS location tagging
+- 🤖 **AI content moderation** — keyword-based Spider-Man relevance check:
+  - ✅ Accepts: Spider-Man, spiderman, Peter Parker, Marvel, web-slinger, etc.
+  - ❌ Rejects: non-Spider-Man content with appropriate error messages
+- 📋 Sightings stored on local Flask backend
+
+### Social Media Feed Panel
+- 🌐 Floating panel (bottom-right corner)
+- Three integrated tabs:
+  - **YouTube** — Real Sony Pictures + Marvel videos via [YouTube RSS](https://www.youtube.com/feeds/videos.xml?user=SonyPictures)
+  - **Reddit** — Live posts from [r/Spiderman](https://www.reddit.com/r/spiderman/) via RSS Atom feed
+  - **X/Twitter** — Curated content pool with random shuffle on refresh
+- 🔄 Refresh button per platform
+- 🏷️ Live/Archive status badges
+- ⏱️ 5-minute cache TTL (prevents rate limiting)
+
+### Trailer Lightbox
+- 🎬 Click "WATCH TRAILER" to open the official *Spider-Man: Brand New Day* trailer
+- YouTube embed with custom Sony-styled lightbox
+- Autoplay with sound toggle
+- ESC / click-outside to close
+
+---
+
+## 🏗️ Project Structure
+
+```
+spider-tracking/
+├── server/                         # Flask backend
+│   ├── server.py                   # API: upload, social feeds, health
+│   └── uploads/                    # User-uploaded content (gitignored)
+├── src/                            # Frontend (static site)
+│   ├── index.html                  # Main page (Astro-built SPA)
+│   ├── _astro/                     # Astro compiled JS/CSS modules
+│   ├── js/                         # Custom plugins
+│   │   ├── i18n.js                 # Language toggle + translation engine
+│   │   ├── upload.js               # UGC upload modal
+│   │   ├── social-feed.js          # Social media feed panel
+│   │   └── leaflet.js              # Leaflet map initialization
+│   ├── images/                     # Site assets (frame, UI, pins, events)
+│   │   └── events/
+│   │       └── event_attachments/  # Fan event videos + images
+│   └── scripts/                    # Tracking/analytics stubs
+├── .gitignore
+├── README.md
+└── PROJECT_PLAN.md                 # Development roadmap (Chinese)
+```
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.8+
+- Web browser (Chrome/Firefox/Edge)
+
+### 1. Clone the repository
 ```bash
+git clone https://github.com/Jarvisshun/spider-tracking.git
+cd spider-tracking
+```
+
+### 2. Start the frontend
+```bash
+# Terminal 1
 cd src
 python -m http.server 8080
-# 浏览器打开 http://127.0.0.1:8080/
 ```
 
-## 📁 项目结构
-
-```
-src/
-├── index.html              # 改造后的首页（注入翻译系统）
-├── siteInit.zh-CN.json     # 中文翻译配置（118个键全覆盖）
-├── js/i18n.js              # 语言切换 + 翻译引擎
-├── _astro/                 # 原 JS/CSS bundle（不改）
-├── images/                 # 本地化图片（不改）
-└── scripts/                # 同意管理脚本（不改）
+### 3. Start the backend (for upload + social feeds)
+```bash
+# Terminal 2 (from project root)
+pip install flask flask-cors
+python server/server.py
 ```
 
-## 🌐 翻译机制
+### 4. Open in browser
+```
+http://127.0.0.1:8080/
+```
 
-1. 原站已有 118 个 `data-i18n` 属性键，覆盖全部 UI 文字
-2. `siteInit.json` 配置对象包含所有动态文本（菜单、面板、Preloader 日志等）
-3. `siteInit.zh-CN.json` 提供中文覆盖值，通过深度合并注入
-4. `i18n.js` 监听语言切换，更新 DOM + 全局配置 + Google Maps 语言参数
-5. 用户语言偏好存储在 `localStorage`，刷新后自动恢复
+Click the **中文** button in the top-left to switch to Chinese.
 
-## 📋 已翻译内容
+---
 
-- 网站标题、SEO 元标签
-- 主菜单（活动日志、上报目击、网络监控、视频、事件、帮助、三星独家下载）
-- 地图 UI（图例、筛选器、3D 控制、街景、雷达）
-- 帮助屏幕引导文字
-- 活动日志 / 事件 / 网络监控面板标题与说明
-- Preloader 启动日志（33 行终端风格文本）
-- 页脚版权与法律链接
-- 弹窗通知、Toast 提示文字
-- Google Maps 地名（通过 API language 参数）
+## 🛠️ Tech Stack
 
-## ⚠️ 注意事项
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Vanilla HTML/CSS/JS (Astro SPA output) |
+| Map | [Leaflet.js](https://leafletjs.com/) + OpenStreetMap CartoDB tiles |
+| Backend | [Flask](https://flask.palletsprojects.com/) (Python) |
+| Social Feeds | RSS/Atom XML parsing (YouTube RSS, Reddit Atom) |
+| i18n | Custom JSON-based translation engine |
+| Content Moderation | Keyword matching engine (28 Spider-Man terms) |
 
-- 需替换 Google Maps API Key（原 Key `AIzaSyA...` 受域名限制，本地开发可用但有限制）
-- 仅供个人学习/非商业用途，版权归 Sony Pictures / Marvel 所有
-- 用户上传社区系统（Phase 2）规划详见 `PROJECT_PLAN.md`
+---
 
-## 🗺️ 路线图
+## ⚠️ Important Notes
 
-| 阶段 | 状态 | 内容 |
-|------|------|------|
-| Phase 1 | ✅ 完成 | 需求调研、原站抓取、资源本地化、方案设计 |
-| Phase 2 | ✅ 完成 | 中英双语切换、翻译引擎、地图中文、本地测试 |
-| Phase 3 | ⏸ 待开始 | 用户上传系统（定位、拍摄、内容审核） |
-| Phase 4 | ⏸ 待开始 | 多社交媒体数据源集成（X + YouTube + Reddit） |
-| Phase 5 | ⏸ 待开始 | 全面测试、审查、部署准备 |
+### Intellectual Property
+This is an **educational/portfolio project**. All Spider-Man branding, imagery, and original site design are intellectual property of **Sony Pictures Entertainment** and **Marvel**. The map data and UI components are cloned from the public [spideytracker.net](https://spideytracker.net) website.
+
+### API Keys
+- **Google Maps API Key** in the original HTML is Sony's public key (visible on spideytracker.net) — it does not work on `localhost`. This project replaces Google Maps with OpenStreetMap (no key required).
+- **YouTube Data API** — not used. Video data comes from YouTube's public RSS feeds (no key required).
+- **Reddit API** — not used. Post data comes from Reddit's public Atom RSS feeds (no key required).
+- **X/Twitter API** — no free API available. Uses a curated content pool.
+
+### No Personal Data
+This project contains **no private credentials, API keys, or personal information**. All content is derived from publicly available sources.
+
+---
+
+## 📋 Development Roadmap
+
+See [PROJECT_PLAN.md](./PROJECT_PLAN.md) for the full phased development plan.
+
+| Phase | Status | Description |
+|-------|--------|-------------|
+| Phase 1 | ✅ Complete | Localization, Leaflet map, i18n system |
+| Phase 2 | ✅ Complete | Bug fixes, preloader, static assets |
+| Phase 3 | ✅ Complete | UGC upload system + content moderation |
+| Phase 4 | ✅ Complete | Social media aggregation (YouTube/Reddit/X) |
+| Phase 5 | ✅ Complete | Testing, layout polish, deployment prep |
+
+---
+
+## 📄 License
+
+This project is for educational purposes only. All original Spider-Man assets and branding are owned by Sony Pictures Entertainment and Marvel. See [PROJECT_PLAN.md](./PROJECT_PLAN.md) for full attribution.
