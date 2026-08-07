@@ -3,14 +3,16 @@ import os, json, uuid, hashlib, time, re, random
 import urllib.request, ssl
 import xml.etree.ElementTree as ET
 from datetime import datetime
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 CORS(app)
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # server/
+ROOT_DIR = os.path.dirname(BASE_DIR)                    # repo root
+SRC_DIR = os.path.join(ROOT_DIR, 'src')
 UPLOAD_DIR = os.path.join(BASE_DIR, 'uploads')
 DATA_FILE = os.path.join(BASE_DIR, 'sightings.json')
 MAX_FILE_SIZE = 50 * 1024 * 1024  # 50MB
@@ -364,6 +366,20 @@ def social_all():
         "total": (yt or {}).get('count', 0) + (rd or {}).get('count', 0) + (tw or {}).get('count', 0),
     })
 
+# Static file serving (unified deployment — Flask serves both frontend + API)
+@app.route('/')
+def serve_index():
+    return send_from_directory(SRC_DIR, 'index.html')
+
+@app.route('/<path:path>')
+def serve_static(path):
+    file_path = os.path.join(SRC_DIR, path)
+    if os.path.isfile(file_path):
+        return send_from_directory(SRC_DIR, path)
+    return jsonify({'error': 'Not found'}), 404
+
 if __name__ == '__main__':
-    print('Spider-Man Tracker Backend starting on http://127.0.0.1:5000')
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    debug = os.environ.get('FLASK_DEBUG', '0') == '1'
+    print(f'Spider-Man Tracker starting on http://0.0.0.0:{port}')
+    app.run(host='0.0.0.0', port=port, debug=debug)

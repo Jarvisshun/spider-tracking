@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  var API_BASE = 'http://127.0.0.1:5000';
+  var API_BASE = '';
   var currentFile = null;
   var currentPreview = null;
   var userLocation = null;

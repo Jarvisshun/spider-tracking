@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  const API_BASE = 'http://127.0.0.1:5000/api/social';
+  const API_BASE = '/api/social';
   let panelVisible = false;
   let currentTab = 'youtube';
   let cachedData = null;
