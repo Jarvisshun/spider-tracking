@@ -1,7 +1,7 @@
 services:
   - type: web
     name: spider-tracking
-    env: python
+    runtime: python
     region: oregon
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn server.server:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120 --log-level info
