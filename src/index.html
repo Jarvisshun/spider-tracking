@@ -46,12 +46,52 @@ const siteInit = {"general":{"seo":{"title":"Spidey Tracker - Sony Pictures","de
     var enableLT = function(obj) {
       if (obj && obj.general && obj.general.languageToggle) {
         obj.general.languageToggle.enabled = true;
-        obj.general.languageToggle.optionalLanguage = {text:"\u4e2d\u6587", url:"#"};
+        obj.general.languageToggle.optionalLanguage = {text:"CN", url:"#"};
       }
     };
     if (window.siteInit) enableLT(window.siteInit);
     if (window.mainData && window.mainData.init) enableLT(window.mainData.init);
   } catch(e) { console.warn("languageToggle enable error:", e); }
+})();</script>
+<script>
+(function(){
+  try {
+    // 真实的语言切换按钮是 i18n.js 动态创建的 #lang-toggle（.lang-toggle-btn）
+    // 面板打开时隐藏它，全部关闭时恢复。
+    var OVERLAY_SELECTOR = [
+      '.activity-log--visible',
+      '.events-panel--visible',
+      '.web-watch--visible',
+      '.x-feed--visible',
+      '#main-menu.main-menu--open',
+      '#lightbox-overlay.lightbox-overlay--visible',
+      '#help-screen.help-screen--visible',
+      '.push-optin.push-optin--visible'
+    ].join(',');
+    function anyOverlayVisible() {
+      return !!document.querySelector(OVERLAY_SELECTOR);
+    }
+    function syncLangToggle() {
+      var lt = document.getElementById('lang-toggle');
+      if (!lt) return;
+      var hide = anyOverlayVisible();
+      lt.style.opacity = hide ? '0' : '1';
+      lt.style.pointerEvents = hide ? 'none' : 'auto';
+    }
+    document.addEventListener('DOMContentLoaded', function(){
+      syncLangToggle();
+      // 任何元素 class 变化都可能代表面板开合
+      new MutationObserver(syncLangToggle).observe(document.body, {subtree:true, attributes:true, attributeFilter:['class']});
+      // 面板开合自定义事件（部分组件只发事件不改 class 查询依赖）
+      ['app:open-lightbox','app:close-lightbox','app:lightbox-closed',
+       'app:main-menu-state','app:activity-log-open','app:activity-log-close',
+       'app:events-open','app:events-close',
+       'app:web-watch-open','app:web-watch-close',
+       'app:x-feed-open','app:x-feed-close',
+       'app:help-screen-open','app:help-screen-close'
+      ].forEach(function(ev){ document.addEventListener(ev, syncLangToggle); });
+    });
+  } catch(e) { console.warn("languageToggle visibility error:", e); }
 })();
 </script><script>(function(){const pageViewTracking = {"gpms_id":"11346502","page_title":"spidey tracker","property_title":"spiderman brand new day","property_type":"user generated content web app","site_country":"global","genres":"action, superhero","content_type":"spidey tracker webapp","subcontent_type":"spidey tracker webapp global","division":"mp","spe_subgroup":"mp"};
 

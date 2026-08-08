@@ -43,8 +43,19 @@
   function getNestedValue(obj, path) {
     var current = obj;
     for (var i = 0; i < path.length; i++) {
-      if (current == null) return undefined;
+      if (current == null) {
+        current = undefined;
+        break;
+      }
       current = current[path[i]];
+    }
+    // 如果根路径找不到且存在 general 命名空间，尝试回退到 general.xxx
+    if (current === undefined && obj && obj.general && path[0] !== 'general') {
+      current = obj.general;
+      for (var j = 0; j < path.length; j++) {
+        if (current == null) return undefined;
+        current = current[path[j]];
+      }
     }
     return current;
   }
@@ -193,7 +204,7 @@
       btn.setAttribute('title', 'Switch to English');
       btn.setAttribute('aria-label', 'Switch to English');
     } else {
-      btn.textContent = '中文';
+      btn.textContent = 'CN';
       btn.setAttribute('title', '切换到中文');
       btn.setAttribute('aria-label', '切换到中文');
     }
@@ -242,23 +253,23 @@
       '  width: 55px;',
       '  text-align: center;',
       '  z-index: 99999;',
-      '  background: rgba(0, 0, 0, 0.75);',
+      '  background: #000;',
       '  color: #fff;',
-      '  border: 2px solid rgba(255, 255, 255, 0.6);',
-      '  border-radius: 6px;',
+      '  border: 2px solid #fff;',
+      '  border-radius: 0;',
       '  padding: 6px 0;',
-      '  font-family: monospace, sans-serif;',
+      '  font-family: "PF Videotext Pro", monospace, sans-serif;',
       '  font-size: 13px;',
       '  font-weight: 700;',
       '  letter-spacing: 1px;',
       '  cursor: pointer;',
       '  transition: all 0.2s ease;',
       '  text-transform: uppercase;',
-      '  backdrop-filter: blur(4px);',
-      '  -webkit-backdrop-filter: blur(4px);',
+      '  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.8);',
       '}',
       '.lang-toggle-btn:hover {',
-      '  background: rgba(220, 20, 20, 0.85);',
+      '  background: #fff;',
+      '  color: #000;',
       '  border-color: #fff;',
       '  transform: scale(1.05);',
       '}',

@@ -1166,26 +1166,31 @@
 		"videos": [
 			{
 				"title": "OFFICIAL TRAILER 3",
+				"title_zh": "官方预告片 3",
 				"src": "https://www.youtube.com/watch?v=P3uI5sLosKU",
 				"default": true
 			},
 			{
 				"title": "NED TALK 2",
+				"title_zh": "内德访谈 2",
 				"src": "https://www.youtube.com/watch?v=Yxz25mD3-9w&t=17s",
 				"default": true
 			},
 			{
 				"title": "OFFICIAL TRAILER 2",
+				"title_zh": "官方预告片 2",
 				"src": "https://www.youtube.com/watch?v=Q27BvUipKn8",
 				"default": true
 			},
 			{
 				"title": "NED TALK",
+				"title_zh": "内德访谈",
 				"src": "https://www.youtube.com/watch?v=0ceb-6OoJw8",
 				"default": true
 			},
 			{
 				"title": "OFFICIAL TRAILER 1",
+				"title_zh": "官方预告片 1",
 				"src": "https://www.youtube.com/watch?v=8TZMtslA3UY",
 				"default": true
 			}
