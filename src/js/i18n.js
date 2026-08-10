@@ -1,32 +1,48 @@
 /**
- * Spidey Tracker 中文翻译引擎
+ * Spidey Tracker 中文翻译引擎 v4
  * 利用原站 data-i18n 属性体系，在加载时注入中文翻译
  * 支持动态切换 EN ↔ 中文，地图语言同步切换
+ *
+ * ★ v4 修复（页面卡死根因）：
+ * 1. DEFAULT_LANG = 'zh-CN'
+ * 2. app:site-init-ready 监听器在 IIFE 顶层立即注册
+ * 3. MutationObserver 防递归：修改 DOM 前断开，修改后重连；只监听 childList 不监听 characterData
+ * 4. applyI18nToDOM 加 _applying 防重入标志
+ * 5. 精简重试逻辑，避免 setTimeout 堆积
+ * 6. 英文模式用 originalSiteInit 作为基础数据
  */
 (function () {
   'use strict';
 
-  var STORAGE_KEY = 'spidey_tracker_lang';
-  var DEFAULT_LANG = 'en';
-  var currentLang = DEFAULT_LANG;
-  var zhCNData = null;
+  // ============================================================
+  // 0. 配置
+  // ============================================================
+  var STORAGE_KEY    = 'spidey_tracker_lang';
+  var DEFAULT_LANG   = 'zh-CN';
+  var currentLang    = DEFAULT_LANG;
+  var zhCNData       = null;
   var originalSiteInit = null;
+  var _siteInitReady = false;
+  var _chineseDataLoaded = false;
+  var _applying      = false;    // ★ 防重入标志
+  var _mutObs        = null;
+  var _retryCount    = 0;
+  var MAX_RETRIES    = 3;
+  var _debounceTimer = null;
 
   // ============================================================
   // 1. 工具函数
   // ============================================================
 
-  /** 深拷贝 JSON 可序列化对象 */
   function deepClone(obj) {
     return JSON.parse(JSON.stringify(obj));
   }
 
-  /** 深度合并：source 中的值覆盖 target，递归处理嵌套对象 */
   function deepMerge(target, source) {
     if (!source || typeof source !== 'object') return target;
     var output = deepClone(target);
     for (var key in source) {
-      if (!source.hasOwnProperty(key)) continue;
+      if (!Object.prototype.hasOwnProperty.call(source, key)) continue;
       var sv = source[key];
       var tv = output[key];
       if (typeof sv === 'object' && sv !== null && !Array.isArray(sv) &&
@@ -39,18 +55,14 @@
     return output;
   }
 
-  /** 按 dot-path 获取嵌套值，如 getNested(obj, ['general','seo','title']) */
   function getNestedValue(obj, path) {
+    if (obj == null || typeof obj !== 'object') return undefined;
     var current = obj;
     for (var i = 0; i < path.length; i++) {
-      if (current == null) {
-        current = undefined;
-        break;
-      }
+      if (current == null) { current = undefined; break; }
       current = current[path[i]];
     }
-    // 如果根路径找不到且存在 general 命名空间，尝试回退到 general.xxx
-    if (current === undefined && obj && obj.general && path[0] !== 'general') {
+    if (current === undefined && obj.general && path[0] !== 'general') {
       current = obj.general;
       for (var j = 0; j < path.length; j++) {
         if (current == null) return undefined;
@@ -60,14 +72,8 @@
     return current;
   }
 
-  /** 按 dot-path 设置嵌套值 */
-  function setNestedValue(obj, path, value) {
-    var current = obj;
-    for (var i = 0; i < path.length - 1; i++) {
-      if (current[path[i]] == null) current[path[i]] = {};
-      current = current[path[i]];
-    }
-    current[path[path.length - 1]] = value;
+  function getCurrentSiteInit() {
+    return (window.mainData && window.mainData.init) || window.siteInit || originalSiteInit;
   }
 
   // ============================================================
@@ -81,10 +87,13 @@
       })
       .then(function (data) {
         zhCNData = data;
+        _chineseDataLoaded = true;
         console.log('[i18n] 中文翻译数据加载成功');
+        tryApplyChinese();
       })
       .catch(function (err) {
         console.warn('[i18n] 中文翻译数据加载失败:', err.message);
+        _chineseDataLoaded = true;
       });
   }
 
@@ -92,7 +101,12 @@
   // 3. 获取翻译后的 siteInit
   // ============================================================
   function getTranslatedSiteInit() {
-    var base = originalSiteInit || (window.mainData && window.mainData.init) || window.siteInit;
+    var base;
+    if (currentLang === 'zh-CN') {
+      base = getCurrentSiteInit();
+    } else {
+      base = originalSiteInit || getCurrentSiteInit();
+    }
     if (!base) return null;
     if (currentLang === 'zh-CN' && zhCNData) {
       return deepMerge(base, zhCNData);
@@ -101,41 +115,71 @@
   }
 
   // ============================================================
-  // 4. 更新所有 data-i18n 元素
+  // 4. 更新所有 data-i18n 元素（★ 防重入 + 断开 Observer）
   // ============================================================
   function applyI18nToDOM(translatedInit) {
-    if (!translatedInit) return;
+    if (!translatedInit) return 0;
+    if (_applying) return 0;          // ★ 防重入
+    _applying = true;
 
-    // 4a. data-i18n — 替换元素文本内容
+    // ★ 临时断开 MutationObserver，防止 DOM 修改触发回调循环
+    if (_mutObs) _mutObs.disconnect();
+
+    var count = 0;
+
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
       var key = el.getAttribute('data-i18n');
       var value = getNestedValue(translatedInit, key.split('.'));
       if (typeof value === 'string') {
         el.textContent = value;
+        count++;
       }
     });
 
-    // 4b. data-i18n-content — 替换元素 content 属性 (meta 标签)
     document.querySelectorAll('[data-i18n-content]').forEach(function (el) {
       var key = el.getAttribute('data-i18n-content');
       var value = getNestedValue(translatedInit, key.split('.'));
-      if (typeof value === 'string') {
-        el.setAttribute('content', value);
-      }
+      if (typeof value === 'string') el.setAttribute('content', value);
     });
 
-    // 4c. data-i18n-aria-label — 替换 aria-label 属性
     document.querySelectorAll('[data-i18n-aria-label]').forEach(function (el) {
       var key = el.getAttribute('data-i18n-aria-label');
       var value = getNestedValue(translatedInit, key.split('.'));
-      if (typeof value === 'string') {
-        el.setAttribute('aria-label', value);
-      }
+      if (typeof value === 'string') el.setAttribute('aria-label', value);
     });
+
+    document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n-html');
+      var value = getNestedValue(translatedInit, key.split('.'));
+      if (typeof value === 'string') el.innerHTML = value;
+    });
+
+    document.querySelectorAll('[data-i18n-alt]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n-alt');
+      var value = getNestedValue(translatedInit, key.split('.'));
+      if (typeof value === 'string') el.setAttribute('alt', value);
+    });
+
+    document.querySelectorAll('[data-i18n-title]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n-title');
+      var value = getNestedValue(translatedInit, key.split('.'));
+      if (typeof value === 'string') el.setAttribute('title', value);
+    });
+
+    // ★ 重新连接 MutationObserver（只监听 childList，不监听 characterData）
+    if (_mutObs) {
+      var menuNav = document.querySelector('.main-menu__nav');
+      if (menuNav) {
+        _mutObs.observe(menuNav, { childList: true, subtree: false });
+      }
+    }
+
+    _applying = false;
+    return count;
   }
 
   // ============================================================
-  // 5. 更新全局 siteInit（供原站 JS 组件读取翻译后的文本）
+  // 5. 更新全局 siteInit
   // ============================================================
   function updateGlobalSiteInit(translatedInit) {
     if (!translatedInit) return;
@@ -146,12 +190,9 @@
   }
 
   // ============================================================
-  // 6. 更新 Google Maps API 语言参数
+  // 6. 更新地图语言参数
   // ============================================================
   function updateMapLanguage(lang) {
-    // Google Maps API has been replaced by Leaflet; tile language is set at
-    // init time. Keep the event for any downstream listeners but don't try
-    // to reload the (now-removed) Maps API script.
     var mapLang = (lang === 'zh-CN') ? 'zh-CN' : 'en';
     document.dispatchEvent(new CustomEvent('i18n:language-changed', {
       detail: { lang: lang, mapLang: mapLang }
@@ -167,29 +208,15 @@
     if (translatedInit && translatedInit.general && translatedInit.general.seo) {
       var seo = translatedInit.general.seo;
       var titleEl = document.querySelector('title[data-i18n]');
-      if (titleEl && seo.title) {
-        titleEl.textContent = seo.title;
-      }
-      // Update meta description
+      if (titleEl && seo.title) titleEl.textContent = seo.title;
       var descEl = document.querySelector('meta[name="description"]');
-      if (descEl && seo.description) {
-        descEl.setAttribute('content', seo.description);
-      }
-      // Update og:description
+      if (descEl && seo.description) descEl.setAttribute('content', seo.description);
       var ogDescEl = document.querySelector('meta[property="og:description"]');
-      if (ogDescEl && seo.ogDescription) {
-        ogDescEl.setAttribute('content', seo.ogDescription);
-      }
-      // Update twitter:description
+      if (ogDescEl && seo.ogDescription) ogDescEl.setAttribute('content', seo.ogDescription);
       var twDescEl = document.querySelector('meta[name="twitter:description"]');
-      if (twDescEl && seo.twitterDescription) {
-        twDescEl.setAttribute('content', seo.twitterDescription);
-      }
-      // Update keywords
+      if (twDescEl && seo.twitterDescription) twDescEl.setAttribute('content', seo.twitterDescription);
       var kwEl = document.querySelector('meta[name="keywords"]');
-      if (kwEl && seo.keywords) {
-        kwEl.setAttribute('content', seo.keywords);
-      }
+      if (kwEl && seo.keywords) kwEl.setAttribute('content', seo.keywords);
     }
   }
 
@@ -214,27 +241,13 @@
   // 9. 创建语言切换按钮
   // ============================================================
   function createToggleButton() {
-    if (document.getElementById('lang-toggle')) return;
+    var btn = document.getElementById('lang-toggle');
+    if (!btn) return;
 
-    var btn = document.createElement('button');
-    btn.id = 'lang-toggle';
-    btn.className = 'lang-toggle-btn';
     btn.type = 'button';
     btn.addEventListener('click', function () {
       switchLanguage(currentLang === 'zh-CN' ? 'en' : 'zh-CN');
     });
-
-    // 尝试插入到 header 区域
-    var header = document.querySelector('.top-header') ||
-                 document.querySelector('.site-header') ||
-                 document.querySelector('header');
-    if (header) {
-      header.appendChild(btn);
-    } else {
-      // 降级：插入到 body 顶部，fixed 定位
-      document.body.insertBefore(btn, document.body.firstChild);
-    }
-
     updateToggleUI();
   }
 
@@ -246,44 +259,27 @@
     var style = document.createElement('style');
     style.id = 'lang-toggle-styles';
     style.textContent = [
-      '.lang-toggle-btn {',
-      '  position: fixed;',
-      '  top: 236px;',
-      '  left: 9px;',
-      '  width: 55px;',
-      '  text-align: center;',
-      '  z-index: 99999;',
-      '  background: #000;',
-      '  color: #fff;',
-      '  border: 2px solid #fff;',
-      '  border-radius: 0;',
-      '  padding: 6px 0;',
-      '  font-family: "PF Videotext Pro", monospace, sans-serif;',
-      '  font-size: 13px;',
+      '.map-filter-btn--lang[data-astro-cid-ioqvmts2] {',
+      '  font-family: "PF Videotext Pro", "Bitcount Prop Single", monospace, sans-serif;',
+      '  font-size: 16px;',
       '  font-weight: 700;',
-      '  letter-spacing: 1px;',
-      '  cursor: pointer;',
-      '  transition: all 0.2s ease;',
+      '  line-height: 41px;',
+      '  text-align: center;',
+      '  color: #fff;',
+      '  text-shadow: 1px 1px 0 rgba(0,0,0,0.7);',
       '  text-transform: uppercase;',
-      '  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.8);',
+      '  user-select: none;',
       '}',
-      '.lang-toggle-btn:hover {',
-      '  background: #fff;',
-      '  color: #000;',
-      '  border-color: #fff;',
-      '  transform: scale(1.05);',
-      '}',
-      '.lang-toggle-btn:active {',
-      '  transform: scale(0.95);',
+      '@media (max-width: 1024px) {',
+      '  .map-filter-btn--lang[data-astro-cid-ioqvmts2] {',
+      '    font-size: 14px;',
+      '    line-height: 37px;',
+      '  }',
       '}',
       '@media (max-width: 640px) {',
-      '  .lang-toggle-btn {',
-      '    top: 210px;',
-      '    left: 7px;',
-      '    width: 48px;',
-      '    text-align: center;',
+      '  .map-filter-btn--lang[data-astro-cid-ioqvmts2] {',
       '    font-size: 11px;',
-      '    padding: 4px 0;',
+      '    line-height: 30px;',
       '  }',
       '}'
     ].join('\n');
@@ -291,16 +287,88 @@
   }
 
   // ============================================================
-  // 11. 切换语言主函数
+  // 11. 核心：条件满足后应用中文翻译（★ 精简重试）
+  // ============================================================
+  function tryApplyChinese() {
+    if (!_siteInitReady || !_chineseDataLoaded) return;
+    if (currentLang !== 'zh-CN' || !zhCNData) return;
+
+    if (!originalSiteInit) {
+      var base = getCurrentSiteInit();
+      if (base) {
+        originalSiteInit = deepClone(base);
+        console.log('[i18n] 已保存原始 siteInit');
+      }
+    }
+
+    var translatedInit = getTranslatedSiteInit();
+    if (!translatedInit) return;
+
+    var count = applyI18nToDOM(translatedInit);
+    updateGlobalSiteInit(translatedInit);
+    updateDocumentMeta('zh-CN', translatedInit);
+    updateMapLanguage('zh-CN');
+    updateToggleUI();
+
+    console.log('[i18n] 已应用中文翻译，更新了 ' + count + ' 个元素');
+
+    // ★ 精简重试：只检查一次，300ms 后重试，最多 3 次
+    var menuLinks = document.querySelectorAll('.main-menu__link');
+    if (menuLinks.length > 0 && _retryCount < MAX_RETRIES) {
+      var firstMenuText = menuLinks[0].textContent.trim();
+      if (firstMenuText === 'ACTIVITY LOG') {
+        _retryCount++;
+        console.log('[i18n] 菜单仍为英文，300ms 后重试 (' + _retryCount + '/' + MAX_RETRIES + ')');
+        setTimeout(function () { tryApplyChinese(); }, 300);
+      } else {
+        console.log('[i18n] ✓ 菜单翻译成功: ' + firstMenuText);
+        _retryCount = 0;
+      }
+    }
+  }
+
+  // ============================================================
+  // 12. MutationObserver — 防递归版（★ 核心修复）
+  // 只监听 childList（子元素增删），不监听 characterData
+  // 加防抖，避免快速连续触发
+  // ============================================================
+  function setupMutationObserver() {
+    if (_mutObs || !window.MutationObserver) return;
+
+    var menuNav = document.querySelector('.main-menu__nav');
+    if (!menuNav) {
+      setTimeout(setupMutationObserver, 500);
+      return;
+    }
+
+    _mutObs = new MutationObserver(function () {
+      if (_applying) return;             // ★ 防重入
+      if (currentLang !== 'zh-CN' || !zhCNData) return;
+
+      // ★ 防抖：500ms 后执行，避免快速连续触发
+      clearTimeout(_debounceTimer);
+      _debounceTimer = setTimeout(function () {
+        if (currentLang !== 'zh-CN' || !zhCNData || _applying) return;
+        var translatedInit = getTranslatedSiteInit();
+        if (translatedInit) {
+          applyI18nToDOM(translatedInit);
+          console.log('[i18n] MutationObserver 回调已重新应用中文');
+        }
+      }, 500);
+    });
+
+    // ★ 只监听 childList，不监听 characterData — 这样 textContent 修改不会触发回调
+    _mutObs.observe(menuNav, { childList: true, subtree: false });
+    console.log('[i18n] MutationObserver 已安装（防递归版）');
+  }
+
+  // ============================================================
+  // 13. 切换语言主函数
   // ============================================================
   function switchLanguage(lang) {
     if (lang === currentLang) return;
     currentLang = lang;
-    try {
-      localStorage.setItem(STORAGE_KEY, lang);
-    } catch (e) {
-      // localStorage 不可用时静默降级
-    }
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
 
     var translatedInit = getTranslatedSiteInit();
     applyI18nToDOM(translatedInit);
@@ -313,38 +381,77 @@
   }
 
   // ============================================================
-  // 12. 初始化
+  // 14. 标记 siteInit 就绪
+  // ============================================================
+  function markSiteInitReady() {
+    if (_siteInitReady) return;
+    _siteInitReady = true;
+
+    var base = getCurrentSiteInit();
+    if (base && !originalSiteInit) {
+      originalSiteInit = deepClone(base);
+      console.log('[i18n] 已保存原始 siteInit');
+    }
+
+    tryApplyChinese();
+
+    // ★ 单次延迟兜底（1 秒），不再堆叠多个定时器
+    setTimeout(function () {
+      if (currentLang === 'zh-CN' && zhCNData) {
+        var translatedInit = getTranslatedSiteInit();
+        if (translatedInit) {
+          applyI18nToDOM(translatedInit);
+          updateGlobalSiteInit(translatedInit);
+          console.log('[i18n] 1 秒兜底重试完成');
+        }
+      }
+    }, 1000);
+  }
+
+  // ============================================================
+  // ★★★ 关键修复：事件监听器在 IIFE 顶层立即注册 ★★★
+  // 不依赖 DOMContentLoaded / requestAnimationFrame
+  // 确保 SiteFadeIn 派发的 app:site-init-ready 事件一定能收到
+  // ============================================================
+  document.addEventListener('app:site-init-ready', function () {
+    console.log('[i18n] ✓ 收到 app:site-init-ready');
+    markSiteInitReady();
+  });
+
+  // ============================================================
+  // 15. 初始化
   // ============================================================
   function init() {
-    // 读取用户偏好
+    console.log('[i18n] 初始化开始...');
+
     try {
       var saved = localStorage.getItem(STORAGE_KEY);
       if (saved) currentLang = saved;
+      console.log('[i18n] 用户语言偏好: ' + currentLang);
     } catch (e) {}
 
-    // 保存原始 siteInit 引用（在中文覆盖之前）
-    if (window.siteInit && !originalSiteInit) {
-      originalSiteInit = deepClone(window.siteInit);
-    }
-
-    // 注入样式和按钮
     injectStyles();
     createToggleButton();
+    loadChineseData();
 
-    // 加载中文数据，如果用户偏好中文则立即应用
-    loadChineseData().then(function () {
-      if (currentLang === 'zh-CN' && zhCNData) {
-        var translatedInit = getTranslatedSiteInit();
-        applyI18nToDOM(translatedInit);
-        updateGlobalSiteInit(translatedInit);
-        updateDocumentMeta('zh-CN', translatedInit);
-        updateMapLanguage('zh-CN');
-        updateToggleUI();
-        console.log('[i18n] 已应用中文翻译');
+    // ★ 兜底 A: siteInit 已存在
+    if (!_siteInitReady && getCurrentSiteInit()) {
+      console.log('[i18n] siteInit 已存在，直接捕获');
+      markSiteInitReady();
+    }
+
+    // ★ 兜底 B: MutationObserver（延迟安装，避免阻塞渲染）
+    setTimeout(setupMutationObserver, 500);
+
+    // ★ 兜底 C: 2 秒定时器 fallback
+    setTimeout(function () {
+      if (!_siteInitReady) {
+        console.log('[i18n] Fallback 定时器触发');
+        markSiteInitReady();
       }
-    });
+    }, 2000);
 
-    // 暴露 API 供外部调用
+    // 暴露 API
     window.SpideyI18n = {
       switchLanguage: switchLanguage,
       getCurrentLanguage: function () { return currentLang; },
@@ -352,14 +459,16 @@
         var translatedInit = getTranslatedSiteInit();
         applyI18nToDOM(translatedInit);
         updateGlobalSiteInit(translatedInit);
-      }
+      },
+      _onSiteInitReady: markSiteInitReady
     };
+
+    console.log('[i18n] 初始化完成');
   }
 
-  // 在 DOM 就绪后初始化（延迟到 siteInit 已设置之后）
+  // ---- 启动 ----
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
-      // 再等一帧确保 siteInit 脚本已执行
       requestAnimationFrame(init);
     });
   } else {

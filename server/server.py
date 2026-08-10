@@ -117,6 +117,122 @@ def health():
 _social_cache = {}
 _CACHE_TTL = 300  # 5 minutes
 
+# --- Dynamic content generators for infinite scroll ---
+_YT_TEMPLATES = [
+    ("Spider-Man: Brand New Day - Official Trailer {n}", "Sony Pictures", "8.5M"),
+    ("Behind the Scenes - Spider-Man Brand New Day {n}", "Marvel Entertainment", "3.1M"),
+    ("Spider-Man Swings Into NYC - Fan Reactions {n}", "SpiderFan Channel", "450K"),
+    ("Spider-Man: Brand New Day - All Easter Eggs {n}", "Screen Rant", "2.3M"),
+    ("Spider-Man PS5 Gameplay - Swinging Through NYC {n}", "GameRanx", "1.8M"),
+    ("Every Spider-Man Movie Ranked Worst to Best {n}", "IGN", "4.2M"),
+    ("Spider-Man Villains Explained - Complete Lore {n}", "Comicstorian", "980K"),
+    ("Tom Holland Reacts to Spider-Man Fan Theories {n}", "Vanity Fair", "5.6M"),
+    ("Spider-Man Suit Collection - Every Costume {n}", "Screen Crush", "1.5M"),
+    ("Spider-Man Brand New Day - Post Credit Scene {n}", "Sony Pictures", "2.8M"),
+    ("Top 10 Spider-Man Moments in MCU History {n}", "WatchMojo", "3.4M"),
+    ("Spider-Man No Way Home - Full Timeline {n}", "CBR", "1.1M"),
+    ("Tom Holland Interview - Brand New Day {n}", "Happy Sad Confused", "890K"),
+    ("Spider-Man PS5 vs Movie Comparison {n}", "Digital Foundry", "670K"),
+    ("Every Spider-Man Suit in Brand New Day {n}", "Variant Comics", "1.3M"),
+    ("Spider-Man Brand New Day - Set Tour {n}", "Entertainment Tonight", "2.1M"),
+    ("Spider-Man Stunts Revealed - Brand New Day {n}", "Corridor Crew", "1.9M"),
+    ("Spider-Man Brand New Day - Premiere Live {n}", "Sony Pictures", "5.2M"),
+    ("Spider-Man Comics to Read Before Brand New Day {n}", "ComicTropes", "420K"),
+    ("Spider-Man Brand New Day - Final Trailer Breakdown {n}", "New Rockstars", "3.7M"),
+]
+_REDDIT_TEMPLATES = [
+    ("Spider-Man spotted swinging through {loc}!", "u/webslinger_fan", 2847, 156),
+    ("Brand New Day trailer breakdown - Easter eggs you missed", "u/marvel_detective", 5120, 423),
+    ("Peter Parker's apartment in real life - {loc} edition", "u/nyc_explorer", 1893, 87),
+    ("Cosplayed as Spider-Man at {loc}, got mobbed", "u/friendly_neighborhood", 3456, 201),
+    ("Brand New Day fan art - my take on the new suit", "u/Chrrisdraws", 8901, 567),
+    ("Spider-Man Brand New Day theory: {theory}", "u/theory_master", 2103, 134),
+    ("Last Stand Spider-Man Backstory Revealed - Discussion", "u/Potential-Mess6826", 1678, 92),
+    ("Miles Morales in Brand New Day? Evidence thread", "u/NerveConscious6375", 3421, 178),
+    ("Spider-Man and Invincible crossover fan concept", "u/Turbulent_Dig_2487", 5612, 289),
+    ("Brand New Day set photos from {loc} leaked", "u/Lox22", 1203, 445),
+    ("Rank the Spider-Man suits from worst to best", "u/suit_collector", 4567, 312),
+    ("Brand New Day villain speculation thread", "u/villain_theorist", 2890, 234),
+    ("Spider-Man PS5 vs Brand New Day suit comparison", "u/gamer_spidey", 1678, 98),
+    ("Tom Holland best Spider-Man moments ranked", "u/holland_fan", 5432, 345),
+    ("Brand New Day plot leak discussion [SPOILERS]", "u/leak_watcher", 8765, 678),
+]
+_X_TEMPLATES = [
+    ("@SpiderManMovie", "Spider-Man: Brand New Day", "The web-slinger is back! Brand New Day hits theaters July 2026. #BrandNewDay"),
+    ("@TomHolland1996", "Tom Holland", "Can't wait for you all to see what we've been working on. This one is special. #{n}"),
+    ("@Marvel", "Marvel Entertainment", "Spider-Man: Brand New Day - swinging into a new era. Watch the official trailer now!"),
+    ("@spideytracker", "Spidey Tracker", "NYC sighting confirmed! Spider-Man spotted at {loc}. Keep your eyes on the sky"),
+    ("@SonyPictures", "Sony Pictures", "Every hero has a new beginning. Spider-Man: Brand New Day - only in theaters July 2026."),
+    ("@MarvelStudios", "Marvel Studios", "The multiverse expands. Spider-Man's next chapter begins. #BrandNewDay"),
+    ("@NYC_Spidey", "NYC Spidey Watch", "Another confirmed sighting near {loc}! Photo evidence uploaded to Spidey Tracker."),
+    ("@ComicBookHQ", "Comic Book HQ", "BREAKING: Spider-Man: Brand New Day teaser poster leaked! Check it out on our site."),
+    ("@zendaya", "Zendaya", "Back on set with my favorite web-slinger. 2026 is going to be amazing."),
+    ("@Collider", "Collider", "SPIDER-MAN: BRAND NEW DAY will reportedly feature the most ambitious action sequence in MCU history."),
+    ("@IGN", "IGN", "Spider-Man: Brand New Day — everything we know so far: new villains, new suit, new director."),
+    ("@EmpireMagazine", "Empire Magazine", "EXCLUSIVE: First look at Spider-Man's new suit in Brand New Day."),
+    ("@KevinFeige", "Kevin Feige", "Spider-Man: Brand New Day is something we've never attempted before in the MCU."),
+    ("@PhaseZero", "Phase Zero", "Brand New Day set photos reveal a destroyed NYC skyline. Full breakdown on our podcast."),
+]
+_LOCATIONS = ["Washington Square Park", "Brooklyn Bridge", "Times Square", "Central Park",
+              "Queensboro Bridge", "Tokyo Tower", "Empire State Building", "Grand Central",
+              "Statue of Liberty", "Rockefeller Center", "London Eye", "Eiffel Tower"]
+_THEORIES = ["the Sinister Six assemble", "Peter loses his powers", "multiverse collapse",
+             "Venom returns", "Miles Morales appears", "MJ gets powers"]
+
+def _generate_youtube_page(offset, limit):
+    items = []
+    for i in range(offset, offset + limit):
+        tpl = _YT_TEMPLATES[i % len(_YT_TEMPLATES)]
+        items.append({
+            "id": "yt{:04d}".format(i),
+            "title": tpl[0].format(n=i + 1),
+            "channel": tpl[1],
+            "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+            "url": "https://www.youtube.com/results?search_query=spider-man+brand+new+day+{}".format(i),
+            "views": tpl[2],
+            "date": "2026-{:02d}-{:02d}".format((i % 12) + 1, (i % 28) + 1),
+        })
+    return items
+
+def _generate_reddit_page(offset, limit):
+    items = []
+    for i in range(offset, offset + limit):
+        tpl = _REDDIT_TEMPLATES[i % len(_REDDIT_TEMPLATES)]
+        loc = _LOCATIONS[i % len(_LOCATIONS)]
+        theory = _THEORIES[i % len(_THEORIES)]
+        items.append({
+            "id": "r{:04d}".format(i),
+            "title": tpl[0].format(loc=loc, theory=theory),
+            "author": tpl[1],
+            "subreddit": "spiderman",
+            "url": "https://www.reddit.com/r/Spiderman/search/?q=spider-man+brand+new+day&sort=new",
+            "score": tpl[2] + i * 10,
+            "num_comments": tpl[3] + i,
+            "thumbnail": None,
+            "created_utc": 1754400000 - i * 3600,
+            "is_spoiler": i % 7 == 0,
+            "preview": "Discussion about Spider-Man: Brand New Day. Share your thoughts and theories!",
+        })
+    return items
+
+def _generate_x_page(offset, limit):
+    items = []
+    for i in range(offset, offset + limit):
+        tpl = _X_TEMPLATES[i % len(_X_TEMPLATES)]
+        loc = _LOCATIONS[i % len(_LOCATIONS)]
+        text = tpl[2].replace("{loc}", loc).replace("{n}", str(i + 1))
+        items.append({
+            "id": "t{:04d}".format(i),
+            "author": tpl[0],
+            "handle": tpl[1],
+            "text": text,
+            "likes": "{}K".format((i * 37 + 1200) // 1000),
+            "retweets": "{}K".format((i * 15 + 300) // 1000),
+            "date": "2026-{:02d}-{:02d}".format((i % 12) + 1, (i % 28) + 1),
+            "url": "https://x.com/search?q=spider-man+brand+new+day",
+        })
+    return items
+
 MOCK_YOUTUBE_VIDEOS = [
     {"id": "0ceb-6OoJw8", "title": "A Message From Ned Leeds - Spider-Man: Brand New Day", "channel": "Sony Pictures", "thumbnail": "https://img.youtube.com/vi/0ceb-6OoJw8/hqdefault.jpg", "url": "https://www.youtube.com/watch?v=0ceb-6OoJw8", "views": "1.2M", "date": "2026-06-15"},
     {"id": "P3uI5sLosKU", "title": "Spider-Man: Brand New Day - Official Trailer", "channel": "Sony Pictures", "thumbnail": "https://img.youtube.com/vi/P3uI5sLosKU/hqdefault.jpg", "url": "https://www.youtube.com/watch?v=P3uI5sLosKU", "views": "8.5M", "date": "2026-05-20"},
@@ -307,37 +423,59 @@ def _get_cached(key, fetcher, force=False):
 @app.route('/api/social/youtube', methods=['GET'])
 def social_youtube():
     force = request.args.get('refresh', '').lower() == 'true'
+    offset = max(0, int(request.args.get('offset', 0)))
+    limit = min(50, max(1, int(request.args.get('limit', 10))))
+    if offset == 0:
+        force = True
     def fetch():
-        real = _fetch_youtube_rss(10)
+        real = _fetch_youtube_rss(15)
         if real:
             return {"videos": real, "source": "youtube", "count": len(real), "live": True}
         return {"videos": MOCK_YOUTUBE_VIDEOS, "source": "youtube", "count": len(MOCK_YOUTUBE_VIDEOS), "live": False}
     result = _get_cached('youtube', fetch, force)
     if result is None:
         result = {"videos": MOCK_YOUTUBE_VIDEOS, "source": "youtube", "count": len(MOCK_YOUTUBE_VIDEOS), "live": False}
-    return jsonify(result)
+    if offset > 0:
+        gen = _generate_youtube_page(offset, limit)
+        return jsonify({"videos": gen, "source": "youtube", "count": len(gen), "live": False, "offset": offset, "has_more": True})
+    return jsonify({**result, "offset": 0, "has_more": True})
 
 @app.route('/api/social/reddit', methods=['GET'])
 def social_reddit():
     force = request.args.get('refresh', '').lower() == 'true'
+    offset = max(0, int(request.args.get('offset', 0)))
+    limit = min(50, max(1, int(request.args.get('limit', 10))))
+    if offset == 0:
+        force = True
     def fetch():
-        real_posts = _fetch_reddit_rss(10)
+        real_posts = _fetch_reddit_rss(15)
         if real_posts:
             return {"posts": real_posts, "source": "reddit", "count": len(real_posts), "live": True}
         return {"posts": MOCK_REDDIT_POSTS, "source": "reddit", "count": len(MOCK_REDDIT_POSTS), "live": False}
     result = _get_cached('reddit', fetch, force)
     if result is None:
         result = {"posts": MOCK_REDDIT_POSTS, "source": "reddit", "count": len(MOCK_REDDIT_POSTS), "live": False}
-    return jsonify(result)
+    if offset > 0:
+        gen = _generate_reddit_page(offset, limit)
+        return jsonify({"posts": gen, "source": "reddit", "count": len(gen), "live": False, "offset": offset, "has_more": True})
+    return jsonify({**result, "offset": 0, "has_more": True})
 
 @app.route('/api/social/x', methods=['GET'])
 def social_x():
     force = request.args.get('refresh', '').lower() == 'true'
+    offset = max(0, int(request.args.get('offset', 0)))
+    limit = min(50, max(1, int(request.args.get('limit', 10))))
+    if offset == 0:
+        force = True
     def fetch():
         pool = MOCK_TWEETS.copy()
         random.shuffle(pool)
         return {"tweets": pool[:10], "source": "x", "count": 10, "total_pool": len(MOCK_TWEETS)}
-    return jsonify(_get_cached('x', fetch, force))
+    result = _get_cached('x', fetch, force)
+    if offset > 0:
+        gen = _generate_x_page(offset, limit)
+        return jsonify({"tweets": gen, "source": "x", "count": len(gen), "live": False, "offset": offset, "has_more": True})
+    return jsonify({**result, "offset": 0, "has_more": True})
 
 @app.route('/api/social/all', methods=['GET'])
 def social_all():
