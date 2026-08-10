@@ -221,15 +221,16 @@ def _generate_x_page(offset, limit):
         tpl = _X_TEMPLATES[i % len(_X_TEMPLATES)]
         loc = _LOCATIONS[i % len(_LOCATIONS)]
         text = tpl[2].replace("{loc}", loc).replace("{n}", str(i + 1))
+        author = tpl[0]
         items.append({
             "id": "t{:04d}".format(i),
-            "author": tpl[0],
+            "author": author,
             "handle": tpl[1],
             "text": text,
             "likes": "{}K".format((i * 37 + 1200) // 1000),
             "retweets": "{}K".format((i * 15 + 300) // 1000),
             "date": "2026-{:02d}-{:02d}".format((i % 12) + 1, (i % 28) + 1),
-            "url": "https://x.com/search?q=spider-man+brand+new+day",
+            "url": "https://x.com/" + author.lstrip("@"),
         })
     return items
 
@@ -470,7 +471,12 @@ def social_x():
     def fetch():
         pool = MOCK_TWEETS.copy()
         random.shuffle(pool)
-        return {"tweets": pool[:10], "source": "x", "count": 10, "total_pool": len(MOCK_TWEETS)}
+        tweets = []
+        for t in pool[:10]:
+            item = dict(t)
+            item.setdefault("url", "https://x.com/" + item["author"].lstrip("@"))
+            tweets.append(item)
+        return {"tweets": tweets, "source": "x", "count": len(tweets), "total_pool": len(MOCK_TWEETS)}
     result = _get_cached('x', fetch, force)
     if offset > 0:
         gen = _generate_x_page(offset, limit)
@@ -495,7 +501,12 @@ def social_all():
     def _x_fetch():
         pool = MOCK_TWEETS.copy()
         random.shuffle(pool)
-        return {"tweets": pool[:10], "source": "x", "count": 10, "total_pool": len(MOCK_TWEETS)}
+        tweets = []
+        for t in pool[:10]:
+            item = dict(t)
+            item.setdefault("url", "https://x.com/" + item["author"].lstrip("@"))
+            tweets.append(item)
+        return {"tweets": tweets, "source": "x", "count": len(tweets), "total_pool": len(MOCK_TWEETS)}
     tw = _get_cached('x', _x_fetch, force)
     return jsonify({
         "youtube": yt,

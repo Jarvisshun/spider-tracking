@@ -358,14 +358,19 @@
     const handle = t.handle ? '<span style="color:#667788">' + esc(t.handle) + '</span>' : '';
     let text = esc(t.text || '');
     text = text.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+    const link = t.url && /^https?:\/\//.test(t.url)
+      ? t.url
+      : 'https://x.com/search?q=' + encodeURIComponent(t.text || t.author || '');
     return '<div class="social-post">' +
-      '<div class="social-post-author">' + esc(t.author) + ' ' + handle + '</div>' +
-      '<div class="social-post-text">' + text + '</div>' +
+      '<a href="' + esc(link) + '" target="_blank" rel="noopener" class="social-post-link">' +
+        '<div class="social-post-author">' + esc(t.author) + ' ' + handle + '</div>' +
+        '<div class="social-post-text">' + text + '</div>' +
+      '</a>' +
       '<div class="social-post-meta">' +
         '<span>\u2764 ' + esc(t.likes) + '</span>' +
         '<span>\uD83D\uDD04 ' + esc(t.retweets) + '</span>' +
         '<span>\uD83D\uDCC5 ' + esc(t.date) + '</span>' +
-        '<a href="https://x.com/search?q=' + encodeURIComponent(t.text || t.author || '') + '" target="_blank" rel="noopener">View on X \u2197</a>' +
+        '<a href="' + esc(link) + '" target="_blank" rel="noopener">View on X \u2197</a>' +
       '</div>' +
     '</div>';
   }
